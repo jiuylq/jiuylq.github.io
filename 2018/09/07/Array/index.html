@@ -1,0 +1,1716 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideRightBigIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本文总结了一些js数组的常用方法">
+<meta name="keywords" content="Array">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Array笔记">
+<meta property="og:url" content="https://jiuylq.github.io/2018/09/07/Array/index.html">
+<meta property="og:site_name" content="jiuylq">
+<meta property="og:description" content="本文总结了一些js数组的常用方法">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jiuylq.github.io/2018/09/07/Array/images/Array.png">
+<meta property="og:updated_time" content="2019-04-07T05:17:16.587Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Array笔记">
+<meta name="twitter:description" content="本文总结了一些js数组的常用方法">
+<meta name="twitter:image" content="https://jiuylq.github.io/2018/09/07/Array/images/Array.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="jiuylq" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://jiuylq.github.io/2018/09/07/Array/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Array笔记 | jiuylq</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=[object Object]"></script>
+  <script>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-135635379-1');
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">jiuylq</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">8</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">6</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">13</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jiuylq.github.io/2018/09/07/Array/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jiuy">
+      <meta itemprop="description" content="jiuylq的博客">
+      <meta itemprop="image" content="//avatars3.githubusercontent.com/u/22409333?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiuylq">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Array笔记
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-09-07 15:51:28" itemprop="dateCreated datePublished" datetime="2018-09-07T15:51:28+08:00">2018-09-07</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-07 13:17:16" itemprop="dateModified" datetime="2019-04-07T13:17:16+08:00">2019-04-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Javascript/" itemprop="url" rel="index"><span itemprop="name">Javascript</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2018/09/07/Array/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/09/07/Array/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+            <span id="/2018/09/07/Array/" class="leancloud_visitors" data-flag-title="Array笔记">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">7.2k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">7 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文总结了一些js数组的常用方法<br><a id="more"></a></p>
+<the rest of contents | 余下全文>
+
+<h2 id="Array笔记"><a href="#Array笔记" class="headerlink" title="Array笔记"></a>Array笔记</h2><p><img src="images/Array.png" alt="简介" title="简介"></p>
+<h3 id="1、创建数组的方法"><a href="#1、创建数组的方法" class="headerlink" title="1、创建数组的方法"></a>1、创建数组的方法</h3><blockquote>
+<p>属性  </p>
+</blockquote>
+<p><strong>length</strong><br>　　length属性表示数组的长度，即其中元素的个数。<br>JavaScript数组的length属性是可变的，当length属性被设置得更大时，整个数组的状态事实上不会发生变化，仅仅是length属性变大；当length属性被设置得比原来小时，则原先数组中索引大于或等于length的元素的值全部被丢失。  </p>
+<p><strong>prototype</strong><br>　　返回对象类型原型的引用。prototype 属性是 object 共有的。<br>一般用来给数组实例添加方法。  </p>
+<p><strong>constructor</strong><br>　　表示创建对象的函数。<br>　　说明：constructor 属性是所有具有 prototype 的对象的成员。constructor 属性保存了对构造特定对象实例的函数的引用。</p>
+<h3 id="1-1-使用Array构造函数"><a href="#1-1-使用Array构造函数" class="headerlink" title="1.1 使用Array构造函数:"></a>1.1 使用Array构造函数:</h3><pre><code class="javascript"><span class="keyword">var</span> arr1 = <span class="keyword">new</span> <span class="built_in">Array</span>(); <span class="comment">//创建一个空数组</span>
+<span class="keyword">var</span> arr2 = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">0</span>); <span class="comment">//创建一个包含10个项的数组</span>
+<span class="keyword">var</span> arr3 = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="string">"lily"</span>,<span class="string">"lucy"</span>,<span class="string">"Tom"</span>); <span class="comment">//创建一个包含3个字符串的数组</span>
+</code></pre>
+<h3 id="1-2-使用数组字面量："><a href="#1-2-使用数组字面量：" class="headerlink" title="1.2 使用数组字面量："></a>1.2 使用数组字面量：</h3><pre><code class="javascript"><span class="keyword">var</span> arr4 = []; <span class="comment">//创建一个空数组</span>
+<span class="keyword">var</span> arr5 = [<span class="number">10</span>]; <span class="comment">//创建一个包含包含10的数组</span>
+<span class="keyword">var</span> arr6 = [<span class="string">"lily"</span>,<span class="string">"lucy"</span>,<span class="string">"Tom"</span>]; <span class="comment">//创建一个包3个字符串的数组</span>
+</code></pre>
+<h3 id="1-3-使用Array-of-创建数组"><a href="#1-3-使用Array-of-创建数组" class="headerlink" title="1.3 使用Array.of()创建数组"></a>1.3 使用Array.of()创建数组</h3><pre><code class="javascript"><span class="keyword">var</span> arr = <span class="built_in">Array</span>.of(<span class="number">7</span>);       <span class="comment">// 创建数组并赋值 [7] </span>
+<span class="keyword">var</span> arr = <span class="built_in">Array</span>.of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>); <span class="comment">// 创建数组并赋值 [1, 2, 3]</span>
+</code></pre>
+<h2 id="2-检测数组"><a href="#2-检测数组" class="headerlink" title="2 检测数组"></a>2 检测数组</h2><pre><code class="javascript"><span class="comment">//判断一个对象是否时数组</span>
+<span class="keyword">var</span> arr = [];
+<span class="keyword">if</span>(arr <span class="keyword">instanceof</span> <span class="built_in">Array</span>){} <span class="comment">//方法一</span>
+<span class="keyword">if</span>(<span class="built_in">Object</span>.prototype.toString.call(arr) == <span class="string">'[object Array]'</span>){} <span class="comment">//方法二</span>
+<span class="keyword">if</span>(<span class="built_in">Array</span>.isArray(arr)){} <span class="comment">//方法四</span>
+<span class="keyword">if</span>(arr.constructor == <span class="built_in">Array</span>){} <span class="comment">//方法四</span>
+</code></pre>
+<h2 id="3-数组方法-isArray-from-of"><a href="#3-数组方法-isArray-from-of" class="headerlink" title="3 数组方法  isArray, from, of"></a>3 数组方法 <font size="3"> isArray, from, of</font></h2><p><strong>Array.isArray(obj)</strong><br>　　检测对象是否是A容榕阿姨，是则返回true,否则返回false。  </p>
+<p><strong>Array.from(arrayLike,mapFn,thisArg)</strong><br>　　该方法从一个类数组或可迭代对象创建一个新的数组实例。参数arrayLike是想要转换成真实数组的类数组对象或可遍历对象。mapFn是可选参数，如果指定了该参数，则最后生成的数组会经过该函数的加工处理后再返回。thisArg时可选参数，为执行mapFn函数时this的值。<br>　　所谓类似数组的对象，本质特征只有一点，即必须有length属性。因此，任何有length属性的对象，都可以通过Array.from方法转换为数组。<br>　　实际应用中，常见的类似数组的对象是 DOM 操作返回的 NodeList 集合，以及函数内部的 arguments 对象。  </p>
+<pre><code class="javascript"><span class="keyword">let</span> arrayLike = {
+    <span class="number">0</span>:<span class="string">'a'</span>,
+    <span class="number">1</span>:<span class="string">'b'</span>,
+    <span class="number">2</span>:<span class="string">'c'</span>,
+    length:<span class="number">3</span>
+};
+<span class="keyword">let</span> arrayLike2 = {<span class="attr">length</span>:<span class="number">3</span>};
+<span class="keyword">let</span> str = <span class="string">'abc'</span>;
+
+<span class="keyword">let</span> newArray = <span class="built_in">Array</span>.from(arrayLike) <span class="comment">//['a','b','c']</span>
+<span class="keyword">let</span> newArray2 = <span class="built_in">Array</span>.from(arrayLike, (v) =&gt; v+<span class="string">'1'</span>) <span class="comment">//['a1','b1','c1']</span>
+<span class="keyword">let</span> newArray3 = <span class="built_in">Array</span>.from(arrayLike2) <span class="comment">//[undefined,undefined,undefined]</span>
+<span class="keyword">let</span> newArray4 = <span class="built_in">Array</span>.from(str) <span class="comment">//['a','b','c']</span>
+</code></pre>
+<p><strong>Array.of(item…)</strong><br>　　该方法用于创建数组实例。该方法用于代替Array()或new Array().Array.or()和Array构造函数之间的区别在于处理整数参数：Array.of(6)创建一个具有单个元素6的数组，而Array(6)则创建一个包含6个undefined元素的数组。  </p>
+<pre><code class="javascript"><span class="built_in">Array</span>.of(<span class="number">7</span>);       <span class="comment">// [7] </span>
+<span class="built_in">Array</span>.of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>); <span class="comment">// [1, 2, 3]</span>
+
+<span class="built_in">Array</span>(<span class="number">7</span>);          <span class="comment">// [ , , , , , , ]</span>
+<span class="built_in">Array</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);    <span class="comment">// [1, 2, 3]</span>
+</code></pre>
+<h3 id="数组实例"><a href="#数组实例" class="headerlink" title="数组实例　　"></a>数组实例　　</h3><p>　　所有数组实例都会从Array.prototype继承属性和方法。修改Array的原型会影响到所有的数组实例。  </p>
+<blockquote>
+<p>属性</p>
+</blockquote>
+<p><strong>Array.prototype.constructor</strong><br>　　所有的数组实例都继承了这个属性，它的值就是 Array，表明了所有的数组都是由 Array 构造出来的。  </p>
+<p><strong>Array.prototype.length</strong><br>　　上面说了，因为 Array.prototype 也是个数组，所以它也有 length 属性，这个值为 0，因为它是个空数组。  </p>
+<blockquote>
+<p>方法</p>
+</blockquote>
+<p><strong>修改器方法</strong><br>下面的这些方法会改变调用它们的对象自身的值：  </p>
+<p><strong>push()</strong><br>push()方法将一个或多个元素添加到数组的末尾，并返回新数组的长度  </p>
+<blockquote>
+<p>语法<br>arr.push(element1, …, elementN)<br>返回值：返回新的数组的长度。</p>
+</blockquote>
+<blockquote>
+<p><em>添加元素到数组</em><br><code>`</code>javascript<br>var sports = [“soccer”, “baseball”];<br>var total = sports.push(“football”, “swimming”);</p>
+</blockquote>
+<p>console.log(sports);<br>// [“soccer”, “baseball”, “football”, “swimming”]</p>
+<p>console.log(total);  // 4</p>
+<pre><code>
+&gt;*合并两个数组*  
+
+使用 apply() 添加第二个数组的所有元素  
+
+```javascript
+var vegetables = [&apos;parsnip&apos;, &apos;potato&apos;];
+var moreVegs = [&apos;celery&apos;, &apos;beetroot&apos;];
+
+// 将第二个数组融合进第一个数组
+// 相当于 vegetables.push(&apos;celery&apos;, &apos;beetroot&apos;);
+Array.prototype.push.apply(vegetables, moreVegs);
+
+console.log(vegetables); // [&apos;parsnip&apos;, &apos;potato&apos;, &apos;celery&apos;, &apos;beetroot&apos;]
+</code></pre><p><strong>pop()</strong>  </p>
+<p>pop()方法从数组中删除最后一个元素，并返回该元素的值。吃方法更改数组的长度。  </p>
+<blockquote>
+<p>语法<br>arr.pop()<br>返回值：从数组中删除的元素(当数组为空时返回undefined)。</p>
+</blockquote>
+<pre><code class="javascript"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+arr.length; <span class="comment">// 3</span>
+arr.pop(); <span class="comment">// 3</span>
+
+<span class="built_in">console</span>.log(arr); <span class="comment">// [1, 2]</span>
+arr.length; <span class="comment">// 2</span>
+</code></pre>
+<p><strong>unshift()</strong>  </p>
+<p>unshift()方法将一个或多个元素添加到数组的开头，并返回新数组的长度。  </p>
+<blockquote>
+<p>语法<br>arr.unshift(element1, …, elementN)<br>返回值：返回新数组的长度</p>
+</blockquote>
+<pre><code class="javascript"><span class="keyword">let</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];
+arr.unshift(<span class="number">4</span>,<span class="number">5</span>);
+
+<span class="built_in">console</span>.log(arr) <span class="comment">//[4,5,1,2,3]</span>
+</code></pre>
+<p><strong>shift()</strong>  </p>
+<p>shift()方法从数组中删除第一个元素，并返回该元素的值。此方法更改数组的长度。  </p>
+<blockquote>
+<p>语法<br>arr.shift()<br>返回值：从数组中删除的元素；(当数组为空时返回undefined)</p>
+</blockquote>
+<pre><code class="javascript"><span class="keyword">let</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];
+<span class="keyword">let</span> arr2 = arr1.shift();
+
+<span class="built_in">console</span>.log(arr1); <span class="comment">//[2,3]</span>
+<span class="built_in">console</span>.log(arr2); <span class="comment">//1</span>
+</code></pre>
+<p><strong>splice()</strong>  </p>
+<p>splice()方法通过删除现有的元素或添加新元素来更改一个数组的内容（在任意的位置给数组添加或删除任意个元素）。  </p>
+<blockquote>
+<p>语法<br>array.splice(start[, deleteCount[, item1[, item2[, …]]]])  </p>
+</blockquote>
+<blockquote>
+<p>参数<br><em>start</em><br>　　指定修改的开始位置（从0计数）。如果超出了数组的长度，则从数组末尾开始添加内容；如果是负值，则表示从数组末位开始的第几位（从-1计数）；若只使用start参数而不使用deleteCount、item，如：array.splice(start) ，表示删除[start，end]的元素。<br><em>deleteCount 可选</em><br>　　整数，表示要移除的数组元素的个数。如果 deleteCount 是 0，则不移除元素。这种情况下，至少应添加一个新元素。如果 deleteCount 大于start 之后的元素的总数，则从 start 后面的元素都将被删除（含第 start 位）。<br>如果deleteCount被省略，则其相当于(arr.length - start)。<br><em>item1, item2, … 可选</em><br>　　要添加进数组的元素,从start 位置开始。如果不指定，则 splice() 将只删除数组元素。<br>splice方法使用deleteCount参数来控制是删除还是添加：<br>start参数是必须的，表示开始的位置（从0计数），如：start=0从第一个开始；start&gt;= array.length-1表示从最后一个开始。<br>①、从start位置开始删除[start，end]的元素。<br>array.splice(start)<br>②、从start位置开始删除[start，Count]的元素。<br>array.splice(start, deleteCount)<br>③、从start位置开始添加item1, item2, …元素。<br>array.splice(start, 0, item1, item2, …)   </p>
+</blockquote>
+<pre><code class="javascript"><span class="keyword">var</span> months = [<span class="string">'Jan'</span>, <span class="string">'March'</span>, <span class="string">'April'</span>, <span class="string">'June'</span>];
+months.splice(<span class="number">1</span>, <span class="number">0</span>, <span class="string">'Feb'</span>);
+<span class="comment">// inserts at 1st index position</span>
+<span class="built_in">console</span>.log(months);
+<span class="comment">// expected output: Array ['Jan', 'Feb', 'March', 'April', 'June']</span>
+
+months.splice(<span class="number">4</span>, <span class="number">1</span>, <span class="string">'May'</span>);
+<span class="comment">// replaces 1 element at 4th index</span>
+<span class="built_in">console</span>.log(months);
+<span class="comment">// expected output: Array ['Jan', 'Feb', 'March', 'April', 'May']</span>
+
+</code></pre>
+<p><strong>sort()</strong><br>sort() 方法对数组的元素进行排序，并返回数组。 sort 排序不一定是稳定的。默认排序顺序是根据字符串Unicode码点。  </p>
+<blockquote>
+<p>语法<br>arr.sort()<br>arr.sort(compareFunction)<br><em>compareFunction</em><br>　　可选。用来指定按某种顺序进行排列的函数。如果省略，元素按照转换为的字符串的各个字符的Unicode位点进行排序。<br>返回值：返回排序后的数组。原数组已经被排序后的数组代替  </p>
+</blockquote>
+<pre><code class="javascript"><span class="comment">//数组排序</span>
+<span class="keyword">var</span> arr = [<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">5</span>,<span class="number">4</span>]
+arr.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>{
+    <span class="keyword">return</span> a - b
+}) <span class="comment">// [1,2,3,4,5]</span>
+
+<span class="comment">//对象可以按照某个属性排序：</span>
+<span class="keyword">var</span> items = [
+  { <span class="attr">name</span>: <span class="string">'Edward'</span>, <span class="attr">value</span>: <span class="number">21</span> },
+  { <span class="attr">name</span>: <span class="string">'Sharpe'</span>, <span class="attr">value</span>: <span class="number">37</span> },
+  { <span class="attr">name</span>: <span class="string">'And'</span>, <span class="attr">value</span>: <span class="number">45</span> },
+  { <span class="attr">name</span>: <span class="string">'The'</span>, <span class="attr">value</span>: <span class="number">-12</span> },
+  { <span class="attr">name</span>: <span class="string">'Magnetic'</span> },
+  { <span class="attr">name</span>: <span class="string">'Zeros'</span>, <span class="attr">value</span>: <span class="number">37</span> }
+];
+
+<span class="comment">// sort by value</span>
+items.sort(<span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>{
+  <span class="keyword">return</span> (a.value - b.value)
+});
+
+<span class="comment">// sort by name</span>
+items.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>{
+  <span class="keyword">var</span> nameA = a.name.toUpperCase(); <span class="comment">// ignore upper and lowercase</span>
+  <span class="keyword">var</span> nameB = b.name.toUpperCase(); <span class="comment">// ignore upper and lowercase</span>
+  <span class="keyword">if</span> (nameA &lt; nameB) {
+    <span class="keyword">return</span> <span class="number">-1</span>;
+  }
+  <span class="keyword">if</span> (nameA &gt; nameB) {
+    <span class="keyword">return</span> <span class="number">1</span>;
+  }
+<span class="comment">// names must be equal</span>
+  <span class="keyword">return</span> <span class="number">0</span>;
+});
+</code></pre>
+<p><strong>reverse()</strong><br>reverse()方法讲述组中的元素位置颠倒。  </p>
+<blockquote>
+<p>语法<br>arr.reverse()  </p>
+</blockquote>
+<pre><code class="javascript"><span class="keyword">var</span> array1 = [<span class="string">'one'</span>, <span class="string">'two'</span>, <span class="string">'three'</span>];
+<span class="keyword">var</span> reversed = array1.reverse(); 
+
+<span class="built_in">console</span>.log(array1);
+<span class="comment">// expected output: Array ['three', 'two', 'one']</span>
+
+<span class="built_in">console</span>.log(reversed);
+<span class="comment">// expected output: Array ['three', 'two', 'one']</span>
+</code></pre>
+<p><strong>fill()</strong><br>fill() 方法用一个固定值填充一个数组中从起始索引到终止索引内的全部元素。  </p>
+<blockquote>
+<p>语法<br>arr.fill(value[, start[, end]])  </p>
+</blockquote>
+<blockquote>
+<p>参数<br><em>value</em><br>用来填充数组元素的值。<br><em>start 可选</em><br>起始索引，默认值为0。<br><em>end 可选</em><br>终止索引，默认值为 this.length。  </p>
+</blockquote>
+<blockquote>
+<p>返回值：修改后的数组</p>
+</blockquote>
+<pre><code class="javascript"><span class="keyword">var</span> array1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];
+
+<span class="comment">// fill with 0 from position 2 until position 4</span>
+<span class="built_in">console</span>.log(array1.fill(<span class="number">0</span>, <span class="number">2</span>, <span class="number">4</span>));
+<span class="comment">// expected output: [1, 2, 0, 0]</span>
+
+<span class="comment">// fill with 5 from position 1</span>
+<span class="built_in">console</span>.log(array1.fill(<span class="number">5</span>, <span class="number">1</span>));
+<span class="comment">// expected output: [1, 5, 5, 5]</span>
+
+<span class="built_in">console</span>.log(array1.fill(<span class="number">6</span>));
+<span class="comment">// expected output: [6, 6, 6, 6]</span>
+</code></pre>
+<p><strong>copyWithin()</strong><br>copyWithin() 方法浅复制数组的一部分到同一数组中的另一个位置，并返回它，而不修改其大小。  </p>
+<blockquote>
+<p>语法<br>arr.copyWithin(target[, start[, end]])  </p>
+</blockquote>
+<blockquote>
+<p>参数<br><em>target</em><br>　　0 为基底的索引，复制序列到该位置。如果是负数，target 将从末尾开始计算。<br>　　如果 target 大于等于 arr.length，将会不发生拷贝。如果 target 在 start 之后，复制的序列将被修改以符合 arr.length。<br><em>start</em><br>　　0 为基底的索引，开始复制元素的起始位置。如果是负数，start 将从末尾开始计算。<br>　　如果 start 被忽略，copyWithin 将会从0开始复制。<br><em>end</em><br>　　0 为基底的索引，开始复制元素的结束位置。copyWithin 将会拷贝到该位置，但不包括 end 这个位置的元素。如果是负数， end 将从末尾开始计算。<br>　　如果 end 被忽略，copyWithin 将会复制到 arr.length。  </p>
+</blockquote>
+<blockquote>
+<p>返回值：改变了的数组。</p>
+</blockquote>
+<pre><code class="javascript"><span class="keyword">var</span> array1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
+
+<span class="comment">// place at position 0 the element between position 3 and 4</span>
+<span class="built_in">console</span>.log(array1.copyWithin(<span class="number">0</span>, <span class="number">3</span>, <span class="number">4</span>));
+<span class="comment">// expected output: Array [4, 2, 3, 4, 5]</span>
+
+<span class="comment">// place at position 1 the elements after position 3</span>
+<span class="built_in">console</span>.log(array1.copyWithin(<span class="number">1</span>, <span class="number">3</span>));
+<span class="comment">// expected output: Array [4, 4, 5, 4, 5]</span>
+</code></pre>
+<p><strong>访问方法</strong>  </p>
+<p>下面的这些方法会改变调用它们的对象自身的值：  </p>
+</the>
+      
+    </div>
+
+    
+
+    
+    
+    
+    
+    
+
+    
+      
+    
+    
+
+    
+      <div>
+        
+
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>jiuy</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="https://jiuylq.github.io/2018/09/07/Array/" title="Array笔记">https://jiuylq.github.io/2018/09/07/Array/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Array/" rel="tag"># Array</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/07/Flex/" rel="next" title="Flex布局">
+                <i class="fa fa-chevron-left"></i> Flex布局
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/13/scss/" rel="prev" title="SCSS 入门">
+                SCSS 入门 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="//avatars3.githubusercontent.com/u/22409333?s=460&v=4" alt="jiuy">
+            
+              <p class="site-author-name" itemprop="name">jiuy</p>
+              <div class="site-description motion-element" itemprop="description">jiuylq的博客</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/jiuylq" title="GitHub &rarr; https://github.com/jiuylq" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="mailto:qiulve@gmail.com" title="E-Mail &rarr; mailto:qiulve@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/yourname" title="Weibo &rarr; https://weibo.com/yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+             </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com" title="http://example.com" rel="noopener" target="_blank">Title</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Array笔记"><span class="nav-number">1.</span> <span class="nav-text">Array笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、创建数组的方法"><span class="nav-number">1.1.</span> <span class="nav-text">1、创建数组的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-使用Array构造函数"><span class="nav-number">1.2.</span> <span class="nav-text">1.1 使用Array构造函数:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-使用数组字面量："><span class="nav-number">1.3.</span> <span class="nav-text">1.2 使用数组字面量：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-使用Array-of-创建数组"><span class="nav-number">1.4.</span> <span class="nav-text">1.3 使用Array.of()创建数组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-检测数组"><span class="nav-number">2.</span> <span class="nav-text">2 检测数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-数组方法-isArray-from-of"><span class="nav-number">3.</span> <span class="nav-text">3 数组方法  isArray, from, of</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数组实例"><span class="nav-number">3.1.</span> <span class="nav-text">数组实例　　</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">Copyright </a>&copy; 2017 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jiuylq</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom">The content of this site comes from daily summary and online.</div>
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'P26CHPjj9VreMJAv9UO1YveC-gzGzoHsz',
+    appKey: 'wFMdR7glovMJJENYCjtQS1QD',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true
+  });
+</script>
+
+
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<style>
+  .copy-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 20px;
+    color: #333;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+    
+    user-select: none;
+    outline: 0;
+  }
+
+  .highlight-wrap .copy-btn {
+    transition: opacity .3s ease-in-out;
+    opacity: 0;
+    padding: 2px 6px;
+    position: absolute;
+    
+      right: 4px;
+      top: 8px;
+    
+  }
+
+  .highlight-wrap:hover .copy-btn,
+  .highlight-wrap .copy-btn:focus {
+    opacity: 1;
+  }
+
+  .highlight-wrap {
+    position: relative;
+  }
+</style>
+<script>
+  $('.highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,1631 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideRightBigIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="SVG 可缩放矢量图形（Scalable Vector Graphics，SVG)，是一种用来描述二维矢量图形的 XML 标记语言">
+<meta name="keywords" content="HTML+CSS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SVG 入门">
+<meta property="og:url" content="https://jiuylq.github.io/2018/12/13/SVG/index.html">
+<meta property="og:site_name" content="jiuylq">
+<meta property="og:description" content="SVG 可缩放矢量图形（Scalable Vector Graphics，SVG)，是一种用来描述二维矢量图形的 XML 标记语言">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-04-07T05:15:36.115Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SVG 入门">
+<meta name="twitter:description" content="SVG 可缩放矢量图形（Scalable Vector Graphics，SVG)，是一种用来描述二维矢量图形的 XML 标记语言">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="jiuylq" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://jiuylq.github.io/2018/12/13/SVG/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>SVG 入门 | jiuylq</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=[object Object]"></script>
+  <script>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-135635379-1');
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">jiuylq</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">8</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">6</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">13</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jiuylq.github.io/2018/12/13/SVG/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jiuy">
+      <meta itemprop="description" content="jiuylq的博客">
+      <meta itemprop="image" content="//avatars3.githubusercontent.com/u/22409333?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiuylq">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SVG 入门
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-13 16:31:09" itemprop="dateCreated datePublished" datetime="2018-12-13T16:31:09+08:00">2018-12-13</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-07 13:15:36" itemprop="dateModified" datetime="2019-04-07T13:15:36+08:00">2019-04-07</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2018/12/13/SVG/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/13/SVG/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+            <span id="/2018/12/13/SVG/" class="leancloud_visitors" data-flag-title="SVG 入门">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">10k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">9 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>SVG 可缩放矢量图形（Scalable Vector Graphics，SVG)，是一种用来描述二维矢量图形的 XML 标记语言<br><a id="more"></a></p>
+<the rest of contents | 余下全文>
+
+<h1 id="SVG"><a href="#SVG" class="headerlink" title="SVG"></a>SVG</h1><h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><p>可缩放矢量图形（Scalable Vector Graphics，SVG)，是一种用来描述二维矢量图形的 XML 标记语言。</p>
+<!-- more -->
+<blockquote>
+<p>优势：<br>　　SVG 可被非常多的工具读取和修改（比如记事本）<br>　　SVG 与 JPEG 和 GIF 图像比起来，尺寸更小，且可压缩性更强。<br>　　SVG 是可伸缩的<br>　　SVG 图像可在任何的分辨率下被高质量地打印<br>　　SVG 可在图像质量不下降的情况下被放大<br>　　SVG 图像中的文本是可选的，同时也是可搜索的（很适合制作地图）<br>　　SVG 可以与 Java 技术一起运行<br>　　SVG 是开放的标准<br>　　SVG 文件是纯粹的 XML  </p>
+</blockquote>
+<p><a href="https://caniuse.com/#search=svg" title="Click to see SVG compatibility" target="_blank" rel="noopener">兼容性</a></p>
+<p><em>SVG 于 2003 年 1 月 14 日成为 W3C 推荐标准。</em></p>
+<h2 id="二、SVG-实例"><a href="#二、SVG-实例" class="headerlink" title="二、SVG 实例"></a>二、SVG 实例</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" standalone="no"?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" </span></span><br><span class="line"><span class="meta">"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">xmlns</span>=<span class="string">"http://www.w3.org/2000/svg"</span> <span class="attr">version</span>=<span class="string">"1.1"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">circle</span> <span class="attr">cx</span>=<span class="string">"100"</span> <span class="attr">cy</span>=<span class="string">"50"</span> <span class="attr">r</span>=<span class="string">"40"</span> <span class="attr">stroke</span>=<span class="string">"black"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">stroke-width</span>=<span class="string">"2"</span> <span class="attr">fill</span>=<span class="string">"red"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>解析：<br>　　第一行包含了 XML 声明。请注意 standalone 属性！该属性规定此 SVG 文件是否是”独立的”，或含有对外部文件的引用。standalone=”no” 意味着 SVG 文档会引用一个外部文件 - 在这里，是 DTD 文件。<br>　　第二和第三行引用了这个外部的 SVG DTD。该 DTD 位于 “<a href="http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd&quot;。该" target="_blank" rel="noopener">http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd&quot;。该</a> DTD 位于 W3C，含有所有允许的 SVG 元素。<br>　　SVG 代码以<code>&lt;svg&gt;</code>元素开始，包括开启标签<code>&lt;svg&gt;</code>和关闭标签<code>&lt;/svg&gt;</code>。这是根元素。width 和 height 属性可设置此 SVG 文档的宽度和高度。version 属性可定义所使用的 SVG 版本，xmlns 属性可定义 SVG 命名空间。<br>　　stroke 和 stroke-width 属性控制如何显示形状的轮廓。fill 属性设置形状内的颜色。<br>　　<em>注释：所有的开启标签必须有关闭标签！</em></p>
+<h2 id="三、页面中使用SVG"><a href="#三、页面中使用SVG" class="headerlink" title="三、页面中使用SVG"></a>三、页面中使用SVG</h2><ol>
+<li>SVG可以直接嵌入到HTML页面中使用</li>
+<li>SVG代码也可以写在一个独立文件中，然后用<code>&lt;img&gt;、&lt;object&gt;、&lt;embed&gt;、&lt;iframe&gt;</code>等标签插入网页</li>
+<li>CSS 也可以使用 SVG 文件</li>
+<li><p>SVG 文件还可以转为 BASE64 编码，然后作为 Data URI 写入网页。</p>
+<p> eg:</p>
+ <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 直接在html中写SVG代码 --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">svg</span></span></span><br><span class="line"><span class="tag"><span class="attr">id</span>=<span class="string">"mysvg"</span></span></span><br><span class="line"><span class="tag"><span class="attr">xmlns</span>=<span class="string">"http://www.w3.org/2000/svg"</span></span></span><br><span class="line"><span class="tag"><span class="attr">viewBox</span>=<span class="string">"0 0 800 600"</span></span></span><br><span class="line"><span class="tag"><span class="attr">preserveAspectRatio</span>=<span class="string">"xMidYMid meet"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">circle</span> <span class="attr">id</span>=<span class="string">"mycircle"</span> <span class="attr">cx</span>=<span class="string">"400"</span> <span class="attr">cy</span>=<span class="string">"300"</span> <span class="attr">r</span>=<span class="string">"50"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">svg</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 通过标签引入SVG --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"circle.svg"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">object</span> <span class="attr">id</span>=<span class="string">"object"</span> <span class="attr">data</span>=<span class="string">"circle.svg"</span> <span class="attr">type</span>=<span class="string">"image/svg+xml"</span>&gt;</span><span class="tag">&lt;/<span class="name">object</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- &lt;object&gt;:</span></span><br><span class="line"><span class="comment">优势：所有主要浏览器都支持，并支持HTML4，XHTML和HTML5标准</span></span><br><span class="line"><span class="comment">缺点：不允许使用脚本。 --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">embed</span> <span class="attr">id</span>=<span class="string">"embed"</span> <span class="attr">src</span>=<span class="string">"icon.svg"</span> <span class="attr">type</span>=<span class="string">"image/svg+xml"</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- &lt;embed&gt;:</span></span><br><span class="line"><span class="comment">优势：所有主要浏览器都支持，并允许使用脚本</span></span><br><span class="line"><span class="comment">缺点：不推荐在HTML4和XHTML中使用（但在HTML5允许） --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">id</span>=<span class="string">"iframe"</span> <span class="attr">src</span>=<span class="string">"icon.svg"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- &lt;iframe&gt;:</span></span><br><span class="line"><span class="comment">优势：所有主要浏览器都支持，并允许使用脚本</span></span><br><span class="line"><span class="comment">缺点：不推荐在HTML4和XHTML中使用（但在HTML5允许） --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- css中引入SVG --&gt;</span></span><br><span class="line">.logo &#123;</span><br><span class="line">background: url(icon.svg);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 转为 BASE64 编码引入 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"data:image/svg+xml;base64,[data]"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="四、语法"><a href="#四、语法" class="headerlink" title="四、语法"></a>四、语法</h2><p><strong>SVG Shapes</strong><br>SVG有一些预定义的形状元素，可被开发者使用和操作：  </p>
+<ul>
+<li>矩形 <code>&lt;rect&gt;</code></li>
+<li>圆形 <code>&lt;circle&gt;</code></li>
+<li>椭圆 <code>&lt;ellipse&gt;</code></li>
+<li>线 <code>&lt;line&gt;</code></li>
+<li>折线 <code>&lt;polyline&gt;</code></li>
+<li>多边形 <code>&lt;polygon&gt;</code></li>
+<li>路径 <code>&lt;path&gt;</code></li>
+</ul>
+<ol>
+<li><p><code>&lt;svg&gt;</code>标签<br> SVG 代码都放在顶层标签<code>&lt;svg&gt;</code>之中。  </p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">xmlns</span>=<span class="string">"http://www.w3.org/2000/svg"</span> <span class="attr">width</span>=<span class="string">"100"</span> <span class="attr">height</span>=<span class="string">"100"</span> <span class="attr">viewBox</span>=<span class="string">"50 50 50 50"</span>&gt;</span> </span><br><span class="line">    <span class="comment">&lt;!-- svg stuff here --&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>&lt;svg&gt;</code>的width属性和height属性，指定了 SVG 图像在 HTML 元素中所占据的宽度和高度。除了相对单位，也可以采用绝对单位（单位：像素）。如果不指定这两个属性，SVG 图像默认大小是300像素（宽） x 150像素（高）。<br>如果只想展示 SVG 图像的一部分，就要指定viewBox属性。</li>
+<li><p><code>View box</code>——这个值允许我们指定一组图像伸展开来适应一个特定的容器元素。<code>viewBox</code>属性的值是一个包含四个数字的列表。min-x,min-y,width,height。 <code>viewBox</code>属性的四个值，分别是左上角的横坐标和纵坐标、视口的宽度和高度。下面代码中，SVG 图像是100像素宽 x 100像素高，viewBox属性指定视口从(50, 50)这个点开始。所以，实际看到的是右下角的四分之一圆。</p>
+</li>
+<li><p>注意，视口必须适配所在的空间。下面代码中，视口的大小是 50 x 50，由于 SVG 图像的大小是 100 x 100，所以视口会放大去适配 SVG 图像的大小，即放大了四倍。</p>
+</li>
+<li><p>如果不指定width属性和height属性，只指定viewBox属性，则相当于只给定 SVG 图像的长宽比。这时，SVG 图像的默认大小将等于所在的 HTML 元素的大小。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">width</span>=<span class="string">"100"</span> <span class="attr">height</span>=<span class="string">"100"</span> <span class="attr">viewBox</span>=<span class="string">"50 50 50 50"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">circle</span> <span class="attr">id</span>=<span class="string">"mycircle"</span> <span class="attr">cx</span>=<span class="string">"50"</span> <span class="attr">cy</span>=<span class="string">"50"</span> <span class="attr">r</span>=<span class="string">"50"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><code>&lt;rect&gt;</code> 标签<br> <code>&lt;rect&gt;</code>标签用于绘制矩形。</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">width</span>=<span class="string">"300"</span> <span class="attr">height</span>=<span class="string">"120"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">rect</span> <span class="attr">x</span>=<span class="string">"10"</span> <span class="attr">y</span>=<span class="string">"10"</span> <span class="attr">rx</span>=<span class="string">"20"</span> <span class="attr">ry</span>=<span class="string">"20"</span> <span class="attr">height</span>=<span class="string">"100"</span> <span class="attr">width</span>=<span class="string">"200"</span> <span class="attr">style</span>=<span class="string">"stroke: #70d5dd; stroke-width: 3px; fill: #dd524b; fill-opacity:0.1; stroke-opacity:0.9; opacity:0.5;"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>x</code> —— 指定了矩形左上角端点的横坐标；</li>
+<li><code>y</code> —— 指定了矩形左上角端点的纵坐标；</li>
+<li><code>rx</code> —— 用于指定圆角x轴的弧度；</li>
+<li><code>ry</code> —— 用于指定圆角y轴的弧度；</li>
+<li><code>width</code> —— 属性指定了矩形的宽度（单位像素）；</li>
+<li><code>height</code> —— 属性指定了矩形的高度（单位像素）; </li>
+<li>CSS属性<ul>
+<li><code>fill</code> —— CSS属性定义矩形的填充颜色（rgb 值、颜色名或者十六进制值）；</li>
+<li><code>stroke-width</code> 属性定义矩形边框的宽度；</li>
+<li><code>stroke</code> —— 属性定义矩形边框的颜色;</li>
+<li><code>fill-opacity</code> —— 属性定义填充颜色透明度（合法的范围是：0 - 1）；</li>
+<li><code>stroke-opacity</code> —— 属性定义轮廓颜色的透明度（合法的范围是：0 - 1）；</li>
+<li><code>opacity</code> —— 属性用于定义了元素的透明值 (范围: 0 到 1)；<div style="width: 300px; height: 150px; margin: 15px 0; border: 1px solid #ff0000;"><br>  <svg width="300" height="180"><br/>      <rect x="10" y="10" rx="20" ry="20" height="100" width="200" style="stroke: #9AFF02; stroke-width: 3px; fill: red; fill-opacity:0.9; stroke-opacity:0.9; opacity:0.5;"/><br/>  </svg><br></div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>&lt;circle&gt;</code>标签<br> <code>&lt;circle&gt;</code>标签用于绘制圆形</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">width</span>=<span class="string">"300"</span> <span class="attr">height</span>=<span class="string">"180"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">circle</span> <span class="attr">cx</span>=<span class="string">"50"</span> <span class="attr">cy</span>=<span class="string">"50"</span> <span class="attr">r</span>=<span class="string">"25"</span> <span class="attr">style</span>=<span class="string">"stroke: #9AFF02; stroke-width: 3px; fill: red;"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>cx</code> —— 定义圆点的x坐标（单位为像素）；</li>
+<li><code>cy</code> —— 定义圆点的y坐标 （单位为像素）；</li>
+<li><code>r</code> —— 半径 （单位为像素）；<br><em>坐标都是相对于<code>&lt;svg&gt;</code>画布的左上角原点。</em><div style="width: 300px; height: 150px; margin: 15px 0; border: 1px solid #ff0000;"><br>  <svg width="300" height="180"><br/>      <circle cx="50" cy="50" r="25" style="stroke: #9AFF02; stroke-width: 3px; fill: red;"/><br/>  </svg><br></div>
+</li>
+</ul>
+</li>
+<li><p><code>&lt;ellipse&gt;</code>标签<br> <code>&lt;ellipse&gt;</code>标签用于绘制椭圆</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">width</span>=<span class="string">"300"</span> <span class="attr">height</span>=<span class="string">"180"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ellipse</span> <span class="attr">cx</span>=<span class="string">"60"</span> <span class="attr">cy</span>=<span class="string">"60"</span> <span class="attr">ry</span>=<span class="string">"40"</span> <span class="attr">rx</span>=<span class="string">"20"</span> <span class="attr">stroke</span>=<span class="string">"#9AFF02"</span> <span class="attr">stroke-width</span>=<span class="string">"3"</span> <span class="attr">fill</span>=<span class="string">"red"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>cx</code> —— 定义椭圆中心的x坐标</li>
+<li><code>cy</code> —— 定义椭圆中心的y坐标</li>
+<li><code>rx</code> —— 定义椭圆的水平半径</li>
+<li><code>ry</code> —— 定义椭圆的垂直半径<div style="width: 300px; height: 150px; margin: 15px 0; border: 1px solid #ff0000;"><br>  <svg width="300" height="180"><br/>      <ellipse cx="60" cy="60" ry="40" rx="20" stroke="#9AFF02" stroke-width="3" fill="red"/><br/>  </svg><br></div>
+</li>
+</ul>
+</li>
+<li><p><code>&lt;line&gt;</code>标签<br><code>&lt;line&gt;</code>标签用来绘制直线</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">width</span>=<span class="string">"300"</span> <span class="attr">height</span>=<span class="string">"180"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">line</span> <span class="attr">x1</span>=<span class="string">"10"</span> <span class="attr">y1</span>=<span class="string">"50"</span> <span class="attr">x2</span>=<span class="string">"100"</span> <span class="attr">y2</span>=<span class="string">"50"</span> <span class="attr">style</span>=<span class="string">"stroke:#9AFF02;stroke-width:3"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>x1</code> —— 定义线段起点的横坐标</li>
+<li><code>y1</code> —— 定义线段起点的纵坐标</li>
+<li><code>x2</code> —— 定义线段终点的横坐标</li>
+<li><code>y2</code> —— 定义线段终点的纵坐标<div style="width: 300px; height: 150px; margin: 15px 0; border: 1px solid #ff0000;"><br>   <svg width="300" height="180"><br/>       <line x1="10" y1="50" x2="100" y2="50" style="stroke:#9AFF02;stroke-width:3"/><br/>   </svg><br></div>
+</li>
+</ul>
+</li>
+<li><p><code>&lt;polyline&gt;</code>标签<br> <code>&lt;polyline&gt;</code>标签用于绘制一根折线</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">width</span>=<span class="string">"300"</span> <span class="attr">height</span>=<span class="string">"180"</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">polyline</span> <span class="attr">points</span>=<span class="string">"20,20 60,40 80,90 150,50 200,130"</span> <span class="attr">style</span>=<span class="string">"fill:none;stroke:#9AFF02;stroke-width:3"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>points</code> —— 属性指定了每个端点的坐标x、y，x坐标与y坐标之间与逗号分隔，点与点之间用空格分隔。<div style="width: 300px; height: 150px; margin: 15px 0; border: 1px solid #ff0000;"><br>  <svg xmlns="http://www.w3.org/2000/svg" version="1.1"><br/>      <polyline points="20,20 60,40 80,90 150,50 200,130" style="fill:none;stroke:#9AFF02;stroke-width:3"/><br/>  </svg><br></div>
+</li>
+</ul>
+</li>
+<li><p><code>&lt;polygon&gt;</code>标签<br> <code>&lt;polygon&gt;</code>标签用于绘制多边形</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">width</span>=<span class="string">"300"</span> <span class="attr">height</span>=<span class="string">"180"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">polygon</span> <span class="attr">fill</span>=<span class="string">"green"</span> <span class="attr">stroke</span>=<span class="string">"orange"</span> <span class="attr">stroke-width</span>=<span class="string">"1"</span> <span class="attr">points</span>=<span class="string">"0,0 100,0 100,100 0,100 0,0"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>points</code> —— 属性指定了每个端点的坐标x、y，x坐标与y坐标之间与逗号分隔，点与点之间用空格分隔。</li>
+<li><p><code>fill-rule</code> —— 确定一个形状的“内部”，有效值: <code>nonzero | evenodd | inherit</code> :</p>
+<ul>
+<li><p><code>nonzero</code>字面意思是“非零”。按该规则，要判断一个点是否在图形内，从该点作任意方向的一条射线，然后检测射线与图形路径的交点情况。从0开始计数，路径从左向右穿过射线则计数加1，从右向左穿过射线则计数减1。得出计数结果后，如果结果是0，则认为点在图形外部，否则认为在内部  </p>
+<svg width="12cm" height="4cm" viewbox="0 0 1200 400" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><br/>  <desc>Example fillrule-nonzero - demonstrates fill-rule:nonzero</desc><br/>  <rect x="1" y="1" width="1198" height="398" fill="none" stroke="blue"/><br/>  <defs><br/>      <path id="Triangle" d="M 16,0 L -8,9 v-18 z" fill="black" stroke="none"/><br/>  </defs><br/>  <g fill-rule="nonzero" fill="red" stroke="black" stroke-width="3"><br/>      <path d="M 250,75 L 323,301 131,161 369,161 177,301 z"/><br/>      <use xlink:href="#Triangle" transform="translate(306.21 249) rotate(72)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(175.16,193.2) rotate(216)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(314.26,161) rotate(0)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(221.16,268.8) rotate(144)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(233.21,126.98) rotate(288)" overflow="visible"/><br/>      <path d="M 600,81 A 107,107 0 0,1 600,295 A 107,107 0 0,1 600,81 z
+              M 600,139 A 49,49 0 0,1 600,237 A 49,49 0 0,1 600,139 z"/><br/>      <use xlink:href="#Triangle" transform="translate(600,188) rotate(0) translate(107,0) rotate(90)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(600,188) rotate(120) translate(107,0) rotate(90)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(600,188) rotate(240) translate(107,0) rotate(90)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(600,188) rotate(60) translate(49,0) rotate(90)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(600,188) rotate(180) translate(49,0) rotate(90)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(600,188) rotate(300) translate(49,0) rotate(90)" overflow="visible"/><br/>      <path d="M 950,81 A 107,107 0 0,1 950,295 A 107,107 0 0,1 950,81 z
+              M 950,139 A 49,49 0 0,0 950,237 A 49,49 0 0,0 950,139 z"/><br/>      <use xlink:href="#Triangle" transform="translate(950,188) rotate(0) translate(107,0) rotate(90)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(950,188) rotate(120) translate(107,0) rotate(90)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(950,188) rotate(240) translate(107,0) rotate(90)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(950,188) rotate(60) translate(49,0) rotate(-90)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(950,188) rotate(180) translate(49,0) rotate(-90)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(950,188) rotate(300) translate(49,0) rotate(-90)" overflow="visible"/><br/>  </g><br/></svg>
+</li>
+<li><p><code>evenodd</code>字面意思是“奇偶”。按该规则，要判断一个点是否在图形内，从该点作任意方向的一条射线，然后检测射线与图形路径的交点的数量。如果结果是奇数则认为点在内部，是偶数则认为点在外部  </p>
+<svg width="12cm" height="4cm" viewbox="0 0 1200 400" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><br/>  <desc>Example fillrule-evenodd - demonstrates fill-rule:evenodd</desc><br/>  <rect x="1" y="1" width="1198" height="398" fill="none" stroke="blue"/><br/>  <defs><br/>      <path id="Triangle" d="M 16,0 L -8,9 v-18 z" fill="black" stroke="none"/><br/>  </defs><br/>  <g fill-rule="evenodd" fill="red" stroke="black" stroke-width="3"><br/>      <path d="M 250,75 L 323,301 131,161 369,161 177,301 z"/><br/>      <use xlink:href="#Triangle" transform="translate(306.21 249) rotate(72)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(175.16,193.2) rotate(216)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(314.26,161) rotate(0)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(221.16,268.8) rotate(144)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(233.21,126.98) rotate(288)" overflow="visible"/><br/>      <path d="M 600,81 A 107,107 0 0,1 600,295 A 107,107 0 0,1 600,81 z
+              M 600,139 A 49,49 0 0,1 600,237 A 49,49 0 0,1 600,139 z"/><br/>      <use xlink:href="#Triangle" transform="translate(600,188) rotate(0) translate(107,0) rotate(90)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(600,188) rotate(120) translate(107,0) rotate(90)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(600,188) rotate(240) translate(107,0) rotate(90)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(600,188) rotate(60) translate(49,0) rotate(90)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(600,188) rotate(180) translate(49,0) rotate(90)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(600,188) rotate(300) translate(49,0) rotate(90)" overflow="visible"/><br/>      <path d="M 950,81 A 107,107 0 0,1 950,295 A 107,107 0 0,1 950,81 z
+              M 950,139 A 49,49 0 0,0 950,237 A 49,49 0 0,0 950,139 z"/><br/>      <use xlink:href="#Triangle" transform="translate(950,188) rotate(0) translate(107,0) rotate(90)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(950,188) rotate(120) translate(107,0) rotate(90)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(950,188) rotate(240) translate(107,0) rotate(90)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(950,188) rotate(60) translate(49,0) rotate(-90)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(950,188) rotate(180) translate(49,0) rotate(-90)" overflow="visible"/><br/>      <use xlink:href="#Triangle" transform="translate(950,188) rotate(300) translate(49,0) rotate(-90)" overflow="visible"/><br/>  </g><br/></svg>
+
+<p>更多案例：<a href="http://www.runoob.com/svg/svg-polygon.html" target="_blank" rel="noopener">http://www.runoob.com/svg/svg-polygon.html</a></p>
+<div style="width: 500px; height: 200px; margin: 15px 0; border: 1px solid #ff0000;"><br>  <svg width="200" height="180" style="float:left;"><br/>  <polygon points="100,10 40,180 190,60 10,60 160,180" style="fill:lime;stroke:purple;stroke-width:5;fill-rule:nonzero;"/><br/>  </svg><br>  <svg width="200" height="180" style="float:left;"><br/>  <polygon points="100,10 40,180 190,60 10,60 160,180" style="fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;"/><br/>  </svg><br></div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>&lt;path&gt;</code>标签<br> <code>&lt;path&gt;</code>标签用于制路径</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">width</span>=<span class="string">"300"</span> <span class="attr">height</span>=<span class="string">"180"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">path</span> <span class="attr">d</span>=<span class="string">"</span></span></span><br><span class="line"><span class="tag"><span class="string">    M 18,3</span></span></span><br><span class="line"><span class="tag"><span class="string">    L 46,3</span></span></span><br><span class="line"><span class="tag"><span class="string">    L 46,40</span></span></span><br><span class="line"><span class="tag"><span class="string">    L 61,40</span></span></span><br><span class="line"><span class="tag"><span class="string">    L 32,68</span></span></span><br><span class="line"><span class="tag"><span class="string">    L 3,40</span></span></span><br><span class="line"><span class="tag"><span class="string">    L 18,40</span></span></span><br><span class="line"><span class="tag"><span class="string">    Z</span></span></span><br><span class="line"><span class="tag"><span class="string">    "</span>&gt;</span><span class="tag">&lt;/<span class="name">path</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>M = moveto</code></li>
+<li><code>L = lineto</code></li>
+<li><code>H = horizontal lineto</code></li>
+<li><code>V = vertical lineto</code></li>
+<li><code>C = curveto</code></li>
+<li><code>S = smooth curveto</code></li>
+<li><code>Q = quadratic Bézier curve</code></li>
+<li><code>T = smooth quadratic Bézier curveto</code></li>
+<li><code>A = elliptical Arc</code></li>
+<li><p><code>Z = closepath</code></p>
+<p>| 指令 | 参数 | 描述 |<br>|:—-|:—-|:—-|<br>|  M  | x y | 起始点坐标x y （Move to） |<br>|  L  | x y | 冲当前点的坐标画直线到指定点的x y坐标（Line to） |<br>|  H  |  x  | 从当前点的坐标画水平直线到指定的x轴坐标（Horizontal line to） |<br>|  V  |  y  | 从当前点的坐标画垂直直线到指定的y轴坐标（Vertical line to） |<br>|  C  | x1 y1 x2 y2 x y | 从当前点的坐标画条贝塞尔线到指定点的x y坐标，其中x1 y1及x2,y2为控制点（Curve） |<br>|  S  | x2 y2 x y | 从当前点的坐标画条反射的贝塞曲线到指定点的x, y坐标，其中x2, y2为反射的控制点（Smooth curve） |<br>|  Q  | x2 y2 x y | 从当前点的坐标画条反射的贝塞曲线到指定点的x, y坐标，其中x2, y2为反射的控制点（Smooth curve） |<br>|  T  | x y | 从当前点的坐标画条反射二次贝塞曲线到指定点的x, y坐标，以前一个坐标为反射控制点（Smooth Quadratic Bézier curve） |<br>|  A  | rx ry x-axis-rotation large-arc-flag sweep-flag x y | 从当前点的坐标画个椭圆形到指定点的x, y坐标，其中rx, ry为椭圆形的x轴及y轴的半径，x-axis-rotation是弧线与x轴的旋转角度，large-arc-flag则设定1最大角度的弧线或是0最小角度的弧线，sweep-flag设定方向为1顺时针方向或0逆时针方向（Arc） |<br>|  Z  |      | 关闭路径，将当前点坐标与第一个点的坐标连接起来（Closepath） |</p>
+<p><em>注意：以上所有命令均允许小写字母。大写代表绝对坐标，小写代表与前一个坐标的相对座标。</em></p>
+<svg width="300" height="180" fill="red"><br/>   <path d="
+   M 18,3
+   L 46,3
+   L 46,40
+   L 61,40
+   L 32,68
+   L 3,40
+   L 18,40
+   Z
+   "/><br/></svg>
+</li>
+</ul>
+</li>
+<li><p><code>&lt;text&gt;</code> 标签<br> <code>&lt;text&gt;</code>标签用于绘制文本  </p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">svg</span> <span class="attr">width</span>=<span class="string">"300"</span> <span class="attr">height</span>=<span class="string">"180"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">text</span> <span class="attr">x</span>=<span class="string">"50"</span> <span class="attr">y</span>=<span class="string">"25"</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">text</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br><span class="line">    ```  </span><br><span class="line">    <span class="tag">&lt;<span class="name">svg</span> <span class="attr">width</span>=<span class="string">"300"</span> <span class="attr">height</span>=<span class="string">"180"</span> <span class="attr">fill</span>=<span class="string">"red"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">text</span> <span class="attr">x</span>=<span class="string">"50"</span> <span class="attr">y</span>=<span class="string">"25"</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">text</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br><span class="line"></span><br><span class="line">10. `<span class="tag">&lt;<span class="name">use</span>&gt;</span>` 标签  </span><br><span class="line">    `<span class="tag">&lt;<span class="name">use</span>&gt;</span>` 标签用于复制一个形状 </span><br><span class="line"></span><br><span class="line">    ``` xml</span><br><span class="line">    <span class="tag">&lt;<span class="name">svg</span> <span class="attr">viewBox</span>=<span class="string">"0 0 30 10"</span> <span class="attr">xmlns</span>=<span class="string">"http://www.w3.org/2000/svg"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">circle</span> <span class="attr">id</span>=<span class="string">"myuse"</span> <span class="attr">cx</span>=<span class="string">"5"</span> <span class="attr">cy</span>=<span class="string">"5"</span> <span class="attr">r</span>=<span class="string">"4"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">use</span> <span class="attr">href</span>=<span class="string">"#myuse"</span> <span class="attr">x</span>=<span class="string">"10"</span> <span class="attr">y</span>=<span class="string">"0"</span> <span class="attr">fill</span>=<span class="string">"blue"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">use</span> <span class="attr">href</span>=<span class="string">"#myuse"</span> <span class="attr">x</span>=<span class="string">"20"</span> <span class="attr">y</span>=<span class="string">"0"</span> <span class="attr">fill</span>=<span class="string">"white"</span> <span class="attr">stroke</span>=<span class="string">"blue"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br><span class="line">    ```  </span><br><span class="line">    <span class="tag">&lt;<span class="name">svg</span> <span class="attr">viewBox</span>=<span class="string">"0 0 30 10"</span> <span class="attr">xmlns</span>=<span class="string">"http://www.w3.org/2000/svg"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">circle</span> <span class="attr">id</span>=<span class="string">"myuse"</span> <span class="attr">cx</span>=<span class="string">"5"</span> <span class="attr">cy</span>=<span class="string">"5"</span> <span class="attr">r</span>=<span class="string">"4"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">use</span> <span class="attr">href</span>=<span class="string">"#myuse"</span> <span class="attr">x</span>=<span class="string">"10"</span> <span class="attr">y</span>=<span class="string">"0"</span> <span class="attr">fill</span>=<span class="string">"blue"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">use</span> <span class="attr">href</span>=<span class="string">"#myuse"</span> <span class="attr">x</span>=<span class="string">"20"</span> <span class="attr">y</span>=<span class="string">"0"</span> <span class="attr">fill</span>=<span class="string">"white"</span> <span class="attr">stroke</span>=<span class="string">"blue"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br><span class="line"></span><br><span class="line">11. `<span class="tag">&lt;<span class="name">g</span>&gt;</span>` 标签  </span><br><span class="line">    `<span class="tag">&lt;<span class="name">g</span>&gt;</span>` 标签用于将多个形状组成一个组（group）</span><br><span class="line"></span><br><span class="line">    ``` xml</span><br><span class="line">    <span class="tag">&lt;<span class="name">svg</span> <span class="attr">width</span>=<span class="string">"300"</span> <span class="attr">height</span>=<span class="string">"100"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">g</span> <span class="attr">id</span>=<span class="string">"myg"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">text</span> <span class="attr">x</span>=<span class="string">"25"</span> <span class="attr">y</span>=<span class="string">"20"</span>&gt;</span>圆形<span class="tag">&lt;/<span class="name">text</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">circle</span> <span class="attr">cx</span>=<span class="string">"50"</span> <span class="attr">cy</span>=<span class="string">"50"</span> <span class="attr">r</span>=<span class="string">"20"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">g</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">use</span> <span class="attr">href</span>=<span class="string">"#myg"</span> <span class="attr">x</span>=<span class="string">"100"</span> <span class="attr">y</span>=<span class="string">"0"</span> <span class="attr">fill</span>=<span class="string">"blue"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">use</span> <span class="attr">href</span>=<span class="string">"#myg"</span> <span class="attr">x</span>=<span class="string">"200"</span> <span class="attr">y</span>=<span class="string">"0"</span> <span class="attr">fill</span>=<span class="string">"white"</span> <span class="attr">stroke</span>=<span class="string">"blue"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+ <div style="width: 500px; height: 200px; margin: 15px 0;background: #fff;"><br>     <svg width="300" height="100"><br/>         <g id="myg"><br/>             <text x="25" y="20">圆形</text><br/>             <circle cx="50" cy="50" r="20"/><br/>         </g><br/>         <use href="#myg" x="100" y="0" fill="blue"/><br/>         <use href="#myg" x="200" y="0" fill="white" stroke="blue"/><br/>     </svg><br> </div>
+</li>
+<li><p><code>&lt;defs&gt;</code> 标签<br><code>&lt;defs&gt;</code> 标签用于自定义形状，它内部的代码不会显示，仅供引用</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">width</span>=<span class="string">"300"</span> <span class="attr">height</span>=<span class="string">"100"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">defs</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">g</span> <span class="attr">id</span>=<span class="string">"myCircle"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">text</span> <span class="attr">x</span>=<span class="string">"25"</span> <span class="attr">y</span>=<span class="string">"20"</span>&gt;</span>圆形<span class="tag">&lt;/<span class="name">text</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">circle</span> <span class="attr">cx</span>=<span class="string">"50"</span> <span class="attr">cy</span>=<span class="string">"50"</span> <span class="attr">r</span>=<span class="string">"20"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">g</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">defs</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">use</span> <span class="attr">href</span>=<span class="string">"#myCircle"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"0"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">use</span> <span class="attr">href</span>=<span class="string">"#myCircle"</span> <span class="attr">x</span>=<span class="string">"100"</span> <span class="attr">y</span>=<span class="string">"0"</span> <span class="attr">fill</span>=<span class="string">"blue"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">use</span> <span class="attr">href</span>=<span class="string">"#myCircle"</span> <span class="attr">x</span>=<span class="string">"200"</span> <span class="attr">y</span>=<span class="string">"0"</span> <span class="attr">fill</span>=<span class="string">"white"</span> <span class="attr">stroke</span>=<span class="string">"blue"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<div style="width: 500px; height: 200px; margin: 15px 0;background: #fff;"><br>    <svg width="300" height="100"><br/>        <defs><br/>            <g id="myCircle"><br/>                <text x="25" y="20">圆形</text><br/>                <circle cx="50" cy="50" r="20"/><br/>            </g><br/>        </defs><br/>        <use href="#myCircle" x="0" y="0"/><br/>        <use href="#myCircle" x="100" y="0" fill="blue"/><br/>        <use href="#myCircle" x="200" y="0" fill="white" stroke="blue"/><br/>    </svg><br></div>
+</li>
+<li><p><code>&lt;pattern&gt;</code> 标签<br><code>&lt;pattern&gt;</code> 标签用于自定义一个形状，该形状可以被引用来平铺一个区域</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">width</span>=<span class="string">"500"</span> <span class="attr">height</span>=<span class="string">"500"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">defs</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">pattern</span> <span class="attr">id</span>=<span class="string">"dots"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"0"</span> <span class="attr">width</span>=<span class="string">"100"</span> <span class="attr">height</span>=<span class="string">"100"</span> <span class="attr">patternUnits</span>=<span class="string">"userSpaceOnUse"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">circle</span> <span class="attr">fill</span>=<span class="string">"#bee9e8"</span> <span class="attr">cx</span>=<span class="string">"50"</span> <span class="attr">cy</span>=<span class="string">"50"</span> <span class="attr">r</span>=<span class="string">"35"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">pattern</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">defs</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">rect</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"0"</span> <span class="attr">width</span>=<span class="string">"100%"</span> <span class="attr">height</span>=<span class="string">"100%"</span> <span class="attr">fill</span>=<span class="string">"url(#dots)"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br><span class="line"></span><br><span class="line"> <span class="comment">&lt;!-- patternUnits="userSpaceOnUse"表示&lt;pattern&gt;的宽度和长度是实际的像素值 --&gt;</span></span><br></pre></td></tr></table></figure>
+<div style="display:inline-block;border: 1px solid blue;"><br>    <svg width="500" height="500"><br/>        <defs><br/>            <pattern id="dots" x="0" y="0" width="100" height="100" patternunits="userSpaceOnUse"><br/>                <circle fill="#bee9e8" cx="50" cy="50" r="35"/><br/>            </pattern><br/>        </defs><br/>        <rect x="0" y="0" width="100%" height="100%" fill="url(#dots)"/><br/>    </svg><br></div>
+</li>
+<li><p><code>&lt;image&gt;</code> 标签<br><code>&lt;image&gt;</code> 标签用于插入图片文件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">viewBox</span>=<span class="string">"0 0 100 100"</span> <span class="attr">width</span>=<span class="string">"100"</span> <span class="attr">height</span>=<span class="string">"100"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">image</span> <span class="attr">xlink:href</span>=<span class="string">"//avatars3.githubusercontent.com/u/22409333?s=460&amp;v=4"</span> <span class="attr">width</span>=<span class="string">"50%"</span> <span class="attr">height</span>=<span class="string">"50%"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<svg viewbox="0 0 100 100" width="500" height="500"><br/>    <image xlink:href="https://avatars3.githubusercontent.com/u/22409333?s=460&v=4" width="50%" height="50%"/><br/></svg></li>
+</ol>
+</the>
+      
+    </div>
+
+    
+
+    
+    
+    
+    
+    
+
+    
+      
+    
+    
+
+    
+      <div>
+        
+
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>jiuy</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="https://jiuylq.github.io/2018/12/13/SVG/" title="SVG 入门">https://jiuylq.github.io/2018/12/13/SVG/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/HTML-CSS/" rel="tag"># HTML+CSS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/13/scss/" rel="next" title="SCSS 入门">
+                <i class="fa fa-chevron-left"></i> SCSS 入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/07/cookie/" rel="prev" title="cookie 知识小记">
+                cookie 知识小记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="//avatars3.githubusercontent.com/u/22409333?s=460&v=4" alt="jiuy">
+            
+              <p class="site-author-name" itemprop="name">jiuy</p>
+              <div class="site-description motion-element" itemprop="description">jiuylq的博客</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/jiuylq" title="GitHub &rarr; https://github.com/jiuylq" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="mailto:qiulve@gmail.com" title="E-Mail &rarr; mailto:qiulve@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/yourname" title="Weibo &rarr; https://weibo.com/yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+             </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com" title="http://example.com" rel="noopener" target="_blank">Title</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SVG"><span class="nav-number">1.</span> <span class="nav-text">SVG</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、概述"><span class="nav-number">1.1.</span> <span class="nav-text">一、概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、SVG-实例"><span class="nav-number">1.2.</span> <span class="nav-text">二、SVG 实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、页面中使用SVG"><span class="nav-number">1.3.</span> <span class="nav-text">三、页面中使用SVG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、语法"><span class="nav-number">1.4.</span> <span class="nav-text">四、语法</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">Copyright </a>&copy; 2017 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jiuylq</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom">The content of this site comes from daily summary and online.</div>
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'P26CHPjj9VreMJAv9UO1YveC-gzGzoHsz',
+    appKey: 'wFMdR7glovMJJENYCjtQS1QD',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true
+  });
+</script>
+
+
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<style>
+  .copy-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 20px;
+    color: #333;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+    
+    user-select: none;
+    outline: 0;
+  }
+
+  .highlight-wrap .copy-btn {
+    transition: opacity .3s ease-in-out;
+    opacity: 0;
+    padding: 2px 6px;
+    position: absolute;
+    
+      right: 4px;
+      top: 8px;
+    
+  }
+
+  .highlight-wrap:hover .copy-btn,
+  .highlight-wrap .copy-btn:focus {
+    opacity: 1;
+  }
+
+  .highlight-wrap {
+    position: relative;
+  }
+</style>
+<script>
+  $('.highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+</body>
+</html>
