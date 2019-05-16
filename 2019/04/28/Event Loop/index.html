@@ -1,0 +1,1951 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideRightBigIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Event Loop即事件循环，是指浏览器或Node的一种解决javaScript单线程运行时不会阻塞的一种机制，也就是我们经常使用异步的原理。">
+<meta name="keywords" content="Javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Event Loop">
+<meta property="og:url" content="https://jiuylq.github.io/2019/04/28/Event Loop/index.html">
+<meta property="og:site_name" content="jiuylq">
+<meta property="og:description" content="Event Loop即事件循环，是指浏览器或Node的一种解决javaScript单线程运行时不会阻塞的一种机制，也就是我们经常使用异步的原理。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jiuylq.github.io/2019/04/28/Event%20Loop/process.jpg">
+<meta property="og:image" content="https://jiuylq.github.io/2019/04/28/Event%20Loop/chrome-process.jpg">
+<meta property="og:image" content="https://jiuylq.github.io/2019/04/28/Event%20Loop/chrome-merge-process.jpg">
+<meta property="og:image" content="https://jiuylq.github.io/2019/04/28/Event%20Loop/blink-process.jpg">
+<meta property="og:image" content="https://jiuylq.github.io/2019/04/28/Event%20Loop/bgr.jpg">
+<meta property="og:image" content="https://jiuylq.github.io/2019/04/28/Event%20Loop/rendering.jpg">
+<meta property="og:image" content="https://jiuylq.github.io/2019/04/28/Event%20Loop/layer-borders.jpg">
+<meta property="og:image" content="https://jiuylq.github.io/2019/04/28/Event%20Loop/heap-stack-queue01.jpg">
+<meta property="og:image" content="https://jiuylq.github.io/2019/04/28/Event%20Loop/max-heap.jpg">
+<meta property="og:image" content="https://jiuylq.github.io/2019/04/28/Event%20Loop/stack.jpg">
+<meta property="og:image" content="https://jiuylq.github.io/2019/04/28/Event%20Loop/queue.jpg">
+<meta property="og:image" content="https://jiuylq.github.io/2019/04/28/Event%20Loop/event-loop.jpg">
+<meta property="og:image" content="https://jiuylq.github.io/2019/04/28/Event%20Loop/node-event-loop.png">
+<meta property="og:image" content="https://jiuylq.github.io/2019/04/28/Event%20Loop/node6.jpg">
+<meta property="og:image" content="https://jiuylq.github.io/2019/04/28/Event%20Loop/poll.jpg">
+<meta property="og:updated_time" content="2019-04-27T16:27:41.589Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Event Loop">
+<meta name="twitter:description" content="Event Loop即事件循环，是指浏览器或Node的一种解决javaScript单线程运行时不会阻塞的一种机制，也就是我们经常使用异步的原理。">
+<meta name="twitter:image" content="https://jiuylq.github.io/2019/04/28/Event%20Loop/process.jpg">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="jiuylq" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://jiuylq.github.io/2019/04/28/Event Loop/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Event Loop | jiuylq</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=[object Object]"></script>
+  <script>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-135635379-1');
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">jiuylq</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">8</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">6</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">19</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jiuylq.github.io/2019/04/28/Event Loop/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jiuy">
+      <meta itemprop="description" content="jiuylq的博客">
+      <meta itemprop="image" content="//avatars3.githubusercontent.com/u/22409333?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiuylq">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Event Loop
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-28 00:20:38 / 修改时间：00:27:41" itemprop="dateCreated datePublished" datetime="2019-04-28T00:20:38+08:00">2019-04-28</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/04/28/Event Loop/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/28/Event Loop/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+            <span id="/2019/04/28/Event Loop/" class="leancloud_visitors" data-flag-title="Event Loop">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">17k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">16 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><code>Event Loop</code>即事件循环，是指浏览器或<code>Node</code>的一种解决<code>javaScript</code>单线程运行时不会阻塞的一种机制，也就是我们经常使用异步的原理。<br><a id="more"></a></p>
+<the rest of contents | 余下全文>
+
+<h2 id="Event-Loop"><a href="#Event-Loop" class="headerlink" title="Event Loop"></a>Event Loop</h2><h3 id="镇楼题"><a href="#镇楼题" class="headerlink" title="镇楼题"></a>镇楼题</h3><p>自我评测下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">async1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'async1 start'</span>);</span><br><span class="line">  <span class="keyword">await</span> async2();</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'async1 end'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">async2</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'async2'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'script start'</span>);</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'setTimeout'</span>);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line">async1();</span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'promise1'</span>);</span><br><span class="line">  resolve();</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'promise2'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'script end'</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p><code>Event Loop</code>即事件循环，是指浏览器或<code>Node</code>的一种解决<code>javaScript</code>单线程运行时不会阻塞的一种机制，也就是我们经常使用异步的原理。</p>
+<h3 id="线程与进程"><a href="#线程与进程" class="headerlink" title="线程与进程"></a>线程与进程</h3><p>1.概念</p>
+<p>我们经常说JS 是单线程执行的，指的是一个进程里只有一个主线程，那到底什么是线程？什么是进程？</p>
+<p>官方语术：  </p>
+<ul>
+<li><code>进程</code>是 CPU资源分配的最小单位（是能拥有资源和独立运行的最小单位）</li>
+<li><code>线程</code>是 CPU调度的最小单位（线程是建立在进程的基础上的一次程序运行单位，一个进程中可以有多个线程）</li>
+</ul>
+<p>eg:<br><img src="/2019/04/28/Event Loop/process.jpg" alt="process"></p>
+<ul>
+<li>进程好比图中的工厂，有单独的专属自己的工厂资源。</li>
+<li>线程好比图中的工人，多个工人在一个工厂中协作工作，工厂与工人是 1:n的关系。也就是说一个进程由一个或多个线程组成，线程是一个进程中代码的不同执行路线；</li>
+<li>工厂的空间是工人们共享的，这象征一个进程的内存空间是共享的，每个线程都可用这些共享内存。</li>
+<li>多个工厂之间独立存在。</li>
+</ul>
+<p>tips</p>
+<ul>
+<li>不同进程之间也可以通信，不过代价较大</li>
+<li>现在，一般通用的叫法：单线程与多线程，都是指在一个进程内的单和多。（所以核心还是得属于一个进程才行）</li>
+</ul>
+<p>2.多进程与多线程</p>
+<ul>
+<li>多进程：在同一个时间里，同一个计算机系统中如果允许两个或两个以上的进程处于运行状态。多进程带来的好处是明显的，比如你可以听歌的同时，打开编辑器敲代码，编辑器和听歌软件的进程之间丝毫不会相互干扰。</li>
+<li>多线程：程序中包含多个执行流，即在一个程序中可以同时运行多个不同的线程来执行不同的任务，也就是说允许单个程序创建多个并行执行的线程来完成各自的任务。</li>
+</ul>
+<p>以Chrome浏览器中为例，当你打开一个 Tab 页时，其实就是创建了一个进程，一个进程中可以有多个线程（下文会详细介绍），比如渲染线程、JS 引擎线程、HTTP 请求线程等等。当你发起一个请求时，其实就是创建了一个线程，当请求结束后，该线程可能就会被销毁。</p>
+<h3 id="浏览器是多进程的"><a href="#浏览器是多进程的" class="headerlink" title="浏览器是多进程的"></a>浏览器是多进程的</h3><p>了解了线程和进程的区别后，接下来我们对浏览器进行一定程度上的认识</p>
+<ul>
+<li>浏览器是多进程的</li>
+<li>浏览器之所以能够运行，是因为系统给它的进程分配了资源（cpu、内存）</li>
+<li>简单点理解，每打开一个Tab页，就相当于创建了一个独立的浏览器进程。</li>
+</ul>
+<p>关于以上几点的验证，请再看下面这张图：</p>
+<p><img src="/2019/04/28/Event Loop/chrome-process.jpg" alt="chrome-process"></p>
+<p>图中打开了Chrome浏览器的多个标签页，然后可以在Chrome的任务管理器中看到有多个进程（分别是每一个Tab页面有一个独立的进程，以及一个主进程）。 感兴趣的可以自行尝试下，如果再多打开一个Tab页，进程正常会+1以上</p>
+<p><strong>注意：</strong>在这里浏览器应该也有自己的优化机制，有时候打开多个tab页后，可以在Chrome任务管理器中看到，有些进程被合并了 （所以每一个Tab标签对应一个进程并不一定是绝对的）</p>
+<h4 id="浏览器都包含哪些进程？"><a href="#浏览器都包含哪些进程？" class="headerlink" title="浏览器都包含哪些进程？"></a>浏览器都包含哪些进程？</h4><p>知道了浏览器是多进程后，再来看看它到底包含哪些进程：（为了简化理解，仅列举主要进程）</p>
+<p>1.Browser进程：浏览器的主进程（负责协调、主控），只有一个。作用有</p>
+<ul>
+<li>负责浏览器界面显示，与用户交互。如前进，后退等</li>
+<li>负责各个页面的管理，创建和销毁其他进程</li>
+<li>将Renderer进程得到的内存中的Bitmap，绘制到用户界面上</li>
+<li>网络资源的管理，下载等</li>
+</ul>
+<p>2.第三方插件进程：每种类型的插件对应一个进程，仅当使用该插件时才创建</p>
+<p>3.GPU进程：最多一个，用于3D绘制等</p>
+<p>4.浏览器渲染进程（浏览器内核）（Renderer进程，内部是多线程的）：默认每个Tab页面一个进程，互不影响。主要作用为</p>
+<ul>
+<li>页面渲染，脚本执行，事件处理等</li>
+</ul>
+<p>强化记忆：在浏览器中打开一个网页相当于新起了一个进程（进程内有自己的多线程）</p>
+<p>当然，浏览器有时会将多个进程合并（譬如打开多个空白标签页后，会发现多个空白标签页被合并成了一个进程），如图</p>
+<p><img src="/2019/04/28/Event Loop/chrome-merge-process.jpg" alt="chrome-merge-process"></p>
+<h4 id="浏览器多进程的优势"><a href="#浏览器多进程的优势" class="headerlink" title="浏览器多进程的优势"></a>浏览器多进程的优势</h4><p>相比于单进程浏览器，多进程有如下优点：</p>
+<ul>
+<li>避免单个page crash影响整个浏览器</li>
+<li>避免第三方插件crash影响整个浏览器</li>
+<li>多进程充分利用多核优势</li>
+<li>方便使用沙盒模型隔离插件等进程，提高浏览器稳定性</li>
+</ul>
+<p>简单点理解：如果浏览器是单进程，那么某个Tab页崩溃了，就影响了整个浏览器，体验有多差；同理如果是单进程，插件崩溃了也会影响整个浏览器；而且多进程还有其它的诸多优势。。。</p>
+<p>当然，内存等资源消耗也会更大，有点空间换时间的意思。</p>
+<h4 id="浏览器内核（渲染进程）"><a href="#浏览器内核（渲染进程）" class="headerlink" title="浏览器内核（渲染进程）"></a>浏览器内核（渲染进程）</h4><p>我们可以看到，上面提到了这么多的进程，那么，对于普通的前端操作来说，最重要的是什么呢？答案是<code>渲染进程</code></p>
+<p>可以这样理解，页面的渲染，JS的执行，事件的循环，都在这个进程内进行。接下来重点分析这个进程</p>
+<p><strong>请牢记，浏览器的渲染进程是多线程的（这点如果不理解，请回头看进程和线程的区分）</strong></p>
+<p>接下来看看它都包含了哪些线程（列举一些主要常驻线程）：</p>
+<p>1.GUI渲染线程</p>
+<ul>
+<li>负责渲染浏览器界面，解析HTML，CSS，构建DOM树和RenderObject树，布局和绘制等。</li>
+<li>当界面需要重绘（Repaint）或由于某种操作引发回流(reflow)时，该线程就会执行</li>
+<li>注意，GUI渲染线程与JS引擎线程是互斥的，当JS引擎执行时GUI线程会被挂起（相当于被冻结了），GUI更新会被保存在一个队列中等到JS引擎空闲时立即被执行。</li>
+</ul>
+<p>2.JS引擎线程</p>
+<ul>
+<li>也称为JS内核，负责处理Javascript脚本程序。（例如V8引擎）</li>
+<li>JS引擎线程负责解析Javascript脚本，运行代码。</li>
+<li>JS引擎一直等待着任务队列中任务的到来，然后加以处理，一个Tab页（renderer进程）中无论什么时候都只有一个JS线程在运行JS程序</li>
+<li>同样注意，GUI渲染线程与JS引擎线程是互斥的，所以如果JS执行的时间过长，这样就会造成页面的渲染不连贯，导致页面渲染加载阻塞。</li>
+</ul>
+<p>3.事件触发线程</p>
+<ul>
+<li>归属于浏览器而不是JS引擎，用来控制事件循环（可以理解，JS引擎自己都忙不过来，需要浏览器另开线程协助）</li>
+<li>当JS引擎执行代码块如setTimeOut时（也可来自浏览器内核的其他线程,如鼠标点击、AJAX异步请求等），会将对应任务添加到事件线程中</li>
+<li>当对应的事件符合触发条件被触发时，该线程会把事件添加到待处理队列的队尾，等待JS引擎的处理</li>
+<li>注意，由于JS的单线程关系，所以这些待处理队列中的事件都得排队等待JS引擎处理（当JS引擎空闲时才会去执行）</li>
+</ul>
+<p>4.定时触发器线程</p>
+<ul>
+<li>传说中的setInterval与setTimeout所在线程</li>
+<li>浏览器定时计数器并不是由JavaScript引擎计数的,（因为JavaScript引擎是单线程的, 如果处于阻塞线程状态就会影响记计时的准确）</li>
+<li>因此通过单独线程来计时并触发定时（计时完毕后，添加到事件队列中，等待JS引擎空闲后执行）</li>
+<li>注意，W3C在HTML标准中规定，规定要求setTimeout中低于4ms的时间间隔算为4ms。</li>
+</ul>
+<p>5.异步http请求线程</p>
+<ul>
+<li>在XMLHttpRequest在连接后是通过浏览器新开一个线程请求</li>
+<li>将检测到状态变更时，如果设置有回调函数，异步线程就产生状态变更事件，将这个回调再放入事件队列中。再由JavaScript引擎执行。</li>
+</ul>
+<p><img src="/2019/04/28/Event Loop/blink-process.jpg" alt="blink-process"></p>
+<h4 id="为什么-JavaScript-是单线程的？"><a href="#为什么-JavaScript-是单线程的？" class="headerlink" title="为什么 JavaScript 是单线程的？"></a>为什么 JavaScript 是单线程的？</h4><p>我们都知道Javascript是一门单线程的语言（即同一时间只能做一件事），因为 JavaScript 生来作为浏览器脚本语言，主要用来处理与用户的交互、网络以及操作 DOM。这就决定了它只能是单线程的，否则会带来很复杂的同步问题。  </p>
+<p>假设 JavaScript 有两个线程，一个线程在某个 DOM 节点上添加内容，另一个线程删除了这个节点，这时浏览器应该以哪个线程为准？</p>
+<p>既然 Javascript 是单线程的，它就像是只有一个窗口的银行，客户不得不排队一个一个的等待办理。同理 JavaScript 的任务也要一个接一个的执行，如果某个任务（比如加载高清图片）是个耗时任务，那浏览器岂不得一直卡着？为了防止主线程的阻塞，JavaScript 有了 同步 和 异步 的概念。</p>
+<h4 id="Browser进程和浏览器内核（Renderer进程）的通信过程"><a href="#Browser进程和浏览器内核（Renderer进程）的通信过程" class="headerlink" title="Browser进程和浏览器内核（Renderer进程）的通信过程"></a>Browser进程和浏览器内核（Renderer进程）的通信过程</h4><p>看到这里，首先，应该对浏览器内的进程和线程都有一定理解了，那么接下来，再谈谈浏览器的Browser进程（控制进程）是如何和内核通信的， 这点也理解后，就可以将这部分的知识串联起来，从头到尾有一个完整的概念。</p>
+<p>如果自己打开任务管理器，然后打开一个浏览器，就可以看到：任务管理器中出现了两个进程（一个是主控进程，一个则是打开Tab页的渲染进程）， 然后在这前提下，看下整个的过程：(简化了很多)</p>
+<ul>
+<li>Browser进程收到用户请求，首先需要获取页面内容（譬如通过网络下载资源），随后将该任务通过RendererHost接口传递给Render进程</li>
+<li>Renderer进程的Renderer接口收到消息，简单解释后，交给渲染线程，然后开始渲染<ul>
+<li>渲染线程接收请求，加载网页并渲染网页，这其中可能需要Browser进程获取资源和需要GPU进程来帮助渲染</li>
+<li>当然可能会有JS线程操作DOM（这样可能会造成回流并重绘）</li>
+<li>最后Render进程将结果传递给Browser进程</li>
+</ul>
+</li>
+<li>Browser进程接收到结果并将结果绘制出来</li>
+</ul>
+<p><img src="/2019/04/28/Event Loop/bgr.jpg" alt="bgr"></p>
+<p>看完这一整套流程，应该对浏览器的运作有了一定理解了，这样有了知识架构的基础后，后续就方便往上填充内容。</p>
+<p>这块再往深处讲的话就涉及到浏览器内核源码解析了，不属于本文范围。</p>
+<p>如果这一块要深挖，建议去读一些浏览器内核源码解析文章，或者可以先看看参考下来源中的第一篇文章，写的不错</p>
+<h3 id="梳理浏览器内核中线程之间的关系"><a href="#梳理浏览器内核中线程之间的关系" class="headerlink" title="梳理浏览器内核中线程之间的关系"></a>梳理浏览器内核中线程之间的关系</h3><p>通过以上的学习，已经对浏览器的运行有了一个整体的概念，接下来，先简单梳理一些概念</p>
+<h4 id="GUI渲染线程与JS引擎线程互斥"><a href="#GUI渲染线程与JS引擎线程互斥" class="headerlink" title="GUI渲染线程与JS引擎线程互斥"></a>GUI渲染线程与JS引擎线程互斥</h4><p>由于JavaScript是可操纵DOM的，如果在修改这些元素属性同时渲染界面（即JS线程和UI线程同时运行），那么渲染线程前后获得的元素数据就可能不一致了。</p>
+<p>因此为了防止渲染出现不可预期的结果，浏览器设置GUI渲染线程与JS引擎为互斥的关系，当JS引擎执行时GUI线程会被挂起， GUI更新则会被保存在一个队列中等到JS引擎线程空闲时立即被执行。</p>
+<h4 id="JS阻塞页面加载"><a href="#JS阻塞页面加载" class="headerlink" title="JS阻塞页面加载"></a>JS阻塞页面加载</h4><p>从上述的互斥关系，可以推导出，JS如果执行时间过长就会阻塞页面。</p>
+<p>譬如，假设JS引擎正在进行巨量的计算，此时就算GUI有更新，也会被保存到队列中，等待JS引擎空闲后执行。 然后，由于巨量计算，所以JS引擎很可能很久很久后才能空闲，自然会感觉到巨卡无比。</p>
+<p>所以，要尽量避免JS执行时间过长，这样就会造成页面的渲染不连贯，导致页面渲染加载阻塞的感觉。</p>
+<h4 id="WebWorker，JS的多线程？"><a href="#WebWorker，JS的多线程？" class="headerlink" title="WebWorker，JS的多线程？"></a>WebWorker，JS的多线程？</h4><p>前文中有提到JS引擎是单线程的，而且JS执行时间过长会阻塞页面，那么JS就真的对cpu密集型计算无能为力么？</p>
+<p>所以，后来HTML5中支持了Web Worker。</p>
+<p>MDN的官方解释是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Web Worker为Web内容在后台线程中运行脚本提供了一种简单的方法。线程可以执行任务而不干扰用户界面</span><br><span class="line"></span><br><span class="line">一个worker是使用一个构造函数创建的一个对象(e.g. Worker()) 运行一个命名的JavaScript文件 </span><br><span class="line"></span><br><span class="line">这个文件包含将在工作线程中运行的代码; workers 运行在另一个全局上下文中,不同于当前的window</span><br><span class="line"></span><br><span class="line">因此，使用 window快捷方式获取当前全局的范围 (而不是self) 在一个 Worker 内将返回错误</span><br></pre></td></tr></table></figure></p>
+<p>这样理解下：</p>
+<ul>
+<li>创建Worker时，JS引擎向浏览器申请开一个子线程（子线程是浏览器开的，完全受主线程控制，而且不能操作DOM）</li>
+<li>JS引擎线程与worker线程间通过特定的方式通信（postMessage API，需要通过序列化对象来与线程交互特定的数据）</li>
+</ul>
+<p>所以，如果有非常耗时的工作，请单独开一个Worker线程，这样里面不管如何翻天覆地都不会影响JS引擎主线程， 只待计算出结果后，将结果通信给主线程即可，perfect!</p>
+<p>而且注意下，JS引擎是单线程的，这一点的本质仍然未改变，Worker可以理解是浏览器给JS引擎开的外挂，专门用来解决那些大量计算问题。</p>
+<h4 id="WebWorker与SharedWorker"><a href="#WebWorker与SharedWorker" class="headerlink" title="WebWorker与SharedWorker"></a>WebWorker与SharedWorker</h4><p>既然都到了这里，就再提一下SharedWorker（避免后续将这两个概念搞混）</p>
+<ul>
+<li>WebWorker只属于某个页面，不会和其他页面的Render进程（浏览器内核进程）共享<ul>
+<li>所以Chrome在Render进程中（每一个Tab页就是一个render进程）创建一个新的线程来运行Worker中的JavaScript程序。</li>
+</ul>
+</li>
+<li>SharedWorker是浏览器所有页面共享的，不能采用与Worker同样的方式实现，因为它不隶属于某个Render进程，可以为多个Render进程共享使用<ul>
+<li>所以Chrome浏览器为SharedWorker单独创建一个进程来运行JavaScript程序，在浏览器中每个相同的JavaScript只存在一个SharedWorker进程，不管它被创建多少次。</li>
+</ul>
+</li>
+</ul>
+<p>看到这里，应该就很容易明白了，本质上就是进程和线程的区别。SharedWorker由独立的进程管理，WebWorker只是属于render进程下的一个线程</p>
+<h3 id="简单梳理下浏览器渲染流程"><a href="#简单梳理下浏览器渲染流程" class="headerlink" title="简单梳理下浏览器渲染流程"></a>简单梳理下浏览器渲染流程</h3><p>本来是直接计划开始谈JS运行机制的，但想了想，既然上述都一直在谈浏览器，直接跳到JS可能再突兀，因此，中间再补充下浏览器的渲染流程（简单版本）</p>
+<p>为了简化理解，前期工作直接省略成：（要展开的或完全可以写另一篇超长文）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- 浏览器输入url，浏览器主进程接管，开一个下载线程，</span><br><span class="line">然后进行 http请求（略去DNS查询，IP寻址等等操作），然后等待响应，获取内容，</span><br><span class="line">随后将内容通过RendererHost接口转交给Renderer进程</span><br><span class="line"></span><br><span class="line">- 浏览器渲染流程开始</span><br></pre></td></tr></table></figure></p>
+<p>浏览器器内核拿到内容后，渲染大概可以划分成以下几个步骤：</p>
+<p>1.解析html建立dom树<br>2.解析css构建render树（将CSS代码解析成树形的数据结构，然后结合DOM合并成render树）<br>3.布局render树（Layout/reflow），负责各元素尺寸、位置的计算<br>4.绘制render树（paint），绘制页面像素信息<br>5.浏览器会将各层的信息发送给GPU，GPU会将各层合成（composite），显示在屏幕上。</p>
+<p>所有详细步骤都已经略去，渲染完毕后就是load事件了，之后就是自己的JS逻辑处理了</p>
+<p>既然略去了一些详细的步骤，那么就提一些可能需要注意的细节把。</p>
+<p><img src="/2019/04/28/Event Loop/rendering.jpg" alt="rendering"></p>
+<h4 id="load事件与DOMContentLoaded事件的先后"><a href="#load事件与DOMContentLoaded事件的先后" class="headerlink" title="load事件与DOMContentLoaded事件的先后"></a>load事件与DOMContentLoaded事件的先后</h4><p>上面提到，渲染完毕后会触发load事件，那么你能分清楚load事件与DOMContentLoaded事件的先后么</p>
+<p>很简单，知道它们的定义就可以了：</p>
+<ul>
+<li>当 DOMContentLoaded 事件触发时，仅当DOM加载完成，不包括样式表，图片。 (譬如如果有async加载的脚本就不一定完成)</li>
+<li>当 onload 事件触发时，页面上所有的DOM，样式表，脚本，图片都已经加载完成了。 （渲染完毕了）</li>
+</ul>
+<p>所以，顺序是：DOMContentLoaded -&gt; load</p>
+<h4 id="css加载是否会阻塞dom树渲染？"><a href="#css加载是否会阻塞dom树渲染？" class="headerlink" title="css加载是否会阻塞dom树渲染？"></a>css加载是否会阻塞dom树渲染？</h4><p>这里说的是头部引入css的情况</p>
+<p>首先，我们都知道：css是由单独的下载线程异步下载的。</p>
+<p>然后再说下几个现象：</p>
+<ul>
+<li>css加载不会阻塞DOM树解析（异步加载时DOM照常构建）</li>
+<li>但会阻塞render树渲染（渲染时需等css加载完毕，因为render树需要css信息）</li>
+</ul>
+<p>这可能也是浏览器的一种优化机制。</p>
+<p>因为你加载css的时候，可能会修改下面DOM节点的样式，<br>如果css加载不阻塞render树渲染的话，那么当css加载完之后，<br>render树可能又得重新重绘或者回流了，这就造成了一些没有必要的损耗。<br>所以干脆就先把DOM树的结构先解析完，把可以做的工作做完，然后等你css加载完之后，<br>在根据最终的样式来渲染render树，这种做法性能方面确实会比较好一点。</p>
+<h4 id="普通图层和复合图层"><a href="#普通图层和复合图层" class="headerlink" title="普通图层和复合图层"></a>普通图层和复合图层</h4><p>渲染步骤中就提到了composite概念。</p>
+<p>可以简单的这样理解，浏览器渲染的图层一般包含两大类：普通图层以及复合图层</p>
+<p>首先，普通文档流内可以理解为一个复合图层（这里称为默认复合层，里面不管添加多少元素，其实都是在同一个复合图层中）</p>
+<p>其次，absolute布局（fixed也一样），虽然可以脱离普通文档流，但它仍然属于默认复合层。</p>
+<p>然后，可以通过硬件加速的方式，声明一个新的复合图层，它会单独分配资源 （当然也会脱离普通文档流，这样一来，不管这个复合图层中怎么变化，也不会影响默认复合层里的回流重绘）</p>
+<p>可以简单理解下：GPU中，各个复合图层是单独绘制的，所以互不影响，这也是为什么某些场景硬件加速效果一级棒</p>
+<p>可以Chrome源码调试 -&gt; More Tools -&gt; Rendering -&gt; Layer borders中看到，黄色的就是复合图层信息</p>
+<p>如下图。可以验证上述的说法</p>
+<p><img src="/2019/04/28/Event Loop/layer-borders.jpg" alt="layer-borders"></p>
+<h4 id="如何变成复合图层（硬件加速）"><a href="#如何变成复合图层（硬件加速）" class="headerlink" title="如何变成复合图层（硬件加速）"></a>如何变成复合图层（硬件加速）</h4><p>将该元素变成一个复合图层，就是传说中的硬件加速技术</p>
+<ul>
+<li>最常用的方式：translate3d、translateZ </li>
+<li>opacity属性/过渡动画（需要动画执行的过程中才会创建合成层，动画没有开始或结束后元素还会回到之前的状态）</li>
+<li>will-chang属性（这个比较偏僻），一般配合opacity与translate使用（而且经测试，除了上述可以引发硬件加速的属性外，其它属性并不会变成复合层）， 作用是提前告诉浏览器要变化，这样浏览器会开始做一些优化工作（这个最好用完后就释放）</li>
+<li><code>&lt;video&gt;&lt;iframe&gt;&lt;canvas&gt;&lt;webgl&gt;</code>等元素</li>
+<li>其它，譬如以前的flash插件</li>
+</ul>
+<p><strong>absolute和硬件加速的区别</strong></p>
+<p>可以看到，absolute虽然可以脱离普通文档流，但是无法脱离默认复合层。<br>所以，就算absolute中信息改变时不会改变普通文档流中render树，<br>但是，浏览器最终绘制时，是整个复合层绘制的，所以absolute中信息的改变，仍然会影响整个复合层的绘制。<br>（浏览器会重绘它，如果复合层中内容多，absolute带来的绘制信息变化过大，资源消耗是非常严重的）</p>
+<p>而硬件加速直接就是在另一个复合层了（另起炉灶），所以它的信息改变不会影响默认复合层 （当然了，内部肯定会影响属于自己的复合层），仅仅是引发最后的合成（输出视图）</p>
+<p><strong>硬件加速时请使用index</strong></p>
+<p>使用硬件加速时，尽可能的使用index，防止浏览器默认给后续的元素创建复合层渲染</p>
+<p>具体的原理时这样的：<br>webkit CSS3中，如果这个元素添加了硬件加速，并且index层级比较低，<br>那么在这个元素的后面其它元素（层级比这个元素高的，或者相同的，并且releative或absolute属性相同的），<br>会默认变为复合层渲染，如果处理不当会极大的影响性能</p>
+<p>简单点理解，其实可以认为是一个隐式合成的概念：如果a是一个复合图层，而且b在a上面，那么b也会被隐式转为一个复合图层，这点需要特别注意</p>
+<p>另外，这个问题可以在这个地址看到重现（原作者分析的挺到位的，直接上链接）：<a href="http://web.jobbole.com/83575/" target="_blank" rel="noopener">http://web.jobbole.com/83575/</a></p>
+<p><a href="https://www.cnblogs.com/PeunZhang/p/3510083.html" target="_blank" rel="noopener">CSS3硬件加速需注意事项</a></p>
+<h3 id="堆，栈、队列"><a href="#堆，栈、队列" class="headerlink" title="堆，栈、队列"></a>堆，栈、队列</h3><p><img src="/2019/04/28/Event Loop/heap-stack-queue01.jpg" alt="heap-stack-queue" title="堆，栈、队列"></p>
+<p><strong>堆（Heap）</strong></p>
+<p><strong>堆</strong>是一种数据结构，是利用完全二叉树维护的一组数据，<strong>堆</strong>分为两种，一种为最大堆，一种为最小堆，将根节点最大的堆叫做最大堆或大根堆，根节点最小的堆叫做最小堆或小根堆。<br>堆是线性数据结构，相当于一维数组，有唯一后继。</p>
+<p>最大堆 eg:</p>
+<p><img src="/2019/04/28/Event Loop/max-heap.jpg" alt="max-heap" title="最大堆"></p>
+<p><strong>栈（Stack）</strong></p>
+<blockquote>
+<p>后进先出，存储基本数据类型和对象的指针，有 push() 和 pop() 这两个方法</p>
+</blockquote>
+<p><strong>栈</strong>在计算机科学中是限定仅在表尾进行插入或删除操作的线性表。 <strong>栈</strong>是一种数据结构，它按照后进先出的原则存储数据，先进入的数据被压入栈底，最后的数据在栈顶，需要读数据的时候从栈顶开始弹出数据<br><strong>栈</strong>是只能在某一端插入和删除的特殊线性表。</p>
+<p><img src="/2019/04/28/Event Loop/stack.jpg" alt="stack" title="栈"></p>
+<blockquote>
+<p>JavaScript 中的内存分为 堆内存 (heap) 和 栈内存 (stack)</p>
+</blockquote>
+<p>JavaScript 中引用类型值的大小是不固定的，因此它们会被存储到 堆内存 中。JavaScript 不允许直接访问堆内存中的位置，因此我们不能直接操作对象的堆内存空间，而是操作 对象的引用。</p>
+<p>而 JavaScript 中的基础数据类型都有固定的大小，因此它们被存储到 栈内存 中，由系统自动分配存储空间。我们可以直接操作保存在栈内存空间的值，因此基础数据类型都是 按值访问。此外，栈内存还会存储 对象的引用 (指针) 以及 函数执行时的运行空间。</p>
+<p>两种存储方式的不同:</p>
+<table>
+<thead>
+<tr>
+<th>栈内存</th>
+<th>堆内存</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>存储基础数据类型</td>
+<td>存储引用数据类型</td>
+</tr>
+<tr>
+<td>按值访问</td>
+<td>按引用访问</td>
+</tr>
+<tr>
+<td>存储的值大小固定</td>
+<td>存储的值大小不定，可动态调整</td>
+</tr>
+<tr>
+<td>由系统自动分配内存空间</td>
+<td>由程序员通过代码进行分配</td>
+</tr>
+<tr>
+<td>主要用来执行程序</td>
+<td>主要用来存放对象</td>
+</tr>
+<tr>
+<td>空间小，运行效率高</td>
+<td>空间大，但是运行效率相对较低</td>
+</tr>
+<tr>
+<td>先进后出，后进先出</td>
+<td>无序存储，可根据引用直接获取</td>
+</tr>
+</tbody>
+</table>
+<p><strong>队列（Queue）</strong></p>
+<blockquote>
+<p>后进后出，有 shift() 和 unshift() 这两个方法</p>
+</blockquote>
+<p>特殊之处在于它只允许在表的前端（front）进行删除操作，而在表的后端（rear）进行插入操作，和栈一样，<strong>队列</strong>是一种操作受限制的线性表。<br>进行插入操作的端称为队尾，进行删除操作的端称为队头。 <strong>队列</strong>中没有元素时，称为空队列。  </p>
+<p><strong>队列</strong>的数据元素又称为<strong>队列元素</strong>。在队列中插入一个队列元素称为入队，从队列中删除一个队列元素称为出队。因为队列只允许在一端插入，在另一端删除，所以只有最早进入队列的元素才能最先从队列中删除，故队列又称为先进先出（FIFO—first in first out）</p>
+<p><img src="/2019/04/28/Event Loop/queue.jpg" alt="queue" title="队列"></p>
+<h3 id="Event-Loop-1"><a href="#Event-Loop-1" class="headerlink" title="Event Loop"></a>Event Loop</h3><p>在<code>JavaScript</code>中，任务被分为两种，一种宏任务（<code>MacroTask</code>）也叫<code>Task</code>，一种叫微任务（<code>MicroTask</code>）。</p>
+<p><strong>MacroTask（宏任务）</strong></p>
+<ul>
+<li><code>script</code>全部代码、<code>setTimeout</code>、<code>setInterval</code>、<code>setImmediate</code>（Node.js,浏览器暂时不支持，只有IE10支持，具体可见MDN）、<code>I/O</code>、<code>UI Rendering</code>、<code>postMessage</code>、<code>MessageChannel</code>、<code>requestAnimationFrame</code>。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th style="text-align:center">浏览器</th>
+<th style="text-align:center">Node</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I/O</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td>setTimeout</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td>setInterval</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td>setImmediate</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td>postMessage</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td>MessageChannel</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td>requestAnimationFrame</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">❌</td>
+</tr>
+<tr>
+<td>UI Rendering</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">❌</td>
+</tr>
+</tbody>
+</table>
+<p>有些地方会列出来<code>UI Rendering</code>，说这个也是宏任务，可是在<a href="https://html.spec.whatwg.org/multipage/webappapis.html#event-loop-processing-model" target="_blank" rel="noopener">HTML规范文档</a>中，发现这很显然是和微任务平行的一个操作步骤</p>
+<p><code>requestAnimationFrame</code>姑且也算是宏任务吧，<code>requestAnimationFrame</code>在MDN的定义为，下次页面重绘前所执行的操作，而重绘也是作为宏任务的一个步骤来存在的，且该步骤晚于微任务的执行</p>
+<p><strong>MicroTask（微任务）</strong></p>
+<ul>
+<li><code>Process.nextTick</code>（Node.js）、<code>Promise.then catch finally</code>、<code>Object.observe</code>(废弃)、<code>MutationObserver</code>（<a href="http://javascript.ruanyifeng.com/dom/mutationobserver.html" target="_blank" rel="noopener">具体使用方式查看这里</a>）</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th style="text-align:center">浏览器</th>
+<th style="text-align:center">Node</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>process.nextTick</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td>Promise.then catch finally</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td>MutationObserver</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">❌</td>
+</tr>
+<tr>
+<td>Object.observe</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">❌</td>
+</tr>
+</tbody>
+</table>
+<h3 id="浏览器中的Event-Loop"><a href="#浏览器中的Event-Loop" class="headerlink" title="浏览器中的Event Loop"></a>浏览器中的Event Loop</h3><ul>
+<li>JS分为同步任务和异步任务</li>
+<li>同步任务都在主线程上执行，形成一个执行栈</li>
+<li>主线程之外，事件触发线程管理着一个任务队列，只要异步任务有了运行结果，就在任务队列之中放置一个事件。</li>
+<li>一旦执行栈中的所有同步任务执行完毕（此时JS引擎空闲），系统就会读取任务队列，将可运行的异步任务添加到可执行栈中，开始执行。</li>
+</ul>
+<h4 id="执行栈"><a href="#执行栈" class="headerlink" title="执行栈"></a>执行栈</h4><p>当我们调用一个方法的时候，JavaScript 会生成一个与这个方法对应的执行环境，又叫执行上下文(context)。这个执行环境中保存着该方法的私有作用域、上层作用域(作用域链)、方法的参数，以及这个作用域中定义的变量和 this 的指向，而当一系列方法被依次调用的时候。由于 JavaScript 是单线程的，这些方法就会按顺序被排列在一个单独的地方，这个地方就是所谓执行栈。<br>JS调用栈采用的是后进先出的规则，当函数执行的时候，会被添加到栈的顶部，当执行栈执行完成后，就会从栈顶移出，直到栈内被清空。</p>
+<h4 id="任务队列"><a href="#任务队列" class="headerlink" title="任务队列"></a>任务队列</h4><p>事件队列是一个存储着 异步任务 的队列，其中的任务严格按照时间先后顺序执行，排在队头的任务将会率先执行，而排在队尾的任务会最后执行。事件队列每次仅执行一个任务，在该任务执行完毕之后，再执行下一个任务。执行栈则是一个类似于函数调用栈的运行容器，当执行栈为空时，JS 引擎便检查事件队列，如果事件队列不为空的话，事件队列便将第一个任务压入执行栈中运行。</p>
+<h4 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h4><p>我们注意到，在异步代码完成后仍有可能要在一旁等待，因为此时程序可能在做其他的事情，等到程序空闲下来才有时间去看哪些异步已经完成了。所以 JavaScript 有一套机制去处理同步和异步操作，那就是事件循环 (Event Loop)。</p>
+<p><img src="/2019/04/28/Event Loop/event-loop.jpg" alt="event-loop" title="Event Loop 过程"></p>
+<ul>
+<li>执行栈在执行完同步任务后，查看执行栈是否为空，如果执行栈为空，就会去检查微任务(microTask)队列是否为空，如果为空的话，就执行Task（宏任务），否则就一次性执行完所有微任务。</li>
+<li>每次单个宏任务执行完毕后，检查微任务(microTask)队列是否为空，如果不为空的话，会按照先入先出的规则全部执行完微任务(microTask)后，设置微任务(microTask)队列为null，然后再执行宏任务，如此循环。</li>
+</ul>
+<p><strong>测试题01</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'A'</span>);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  func: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'B'</span>);</span><br><span class="line">    &#125;, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'C'</span>);</span><br><span class="line">      resolve();</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">obj.func().then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'D'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'E'</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>第一个 setTimeout 放到宏任务队列，此时宏任务队列为 [‘A’]</li>
+<li>接着执行 obj 的 func 方法，将 setTimeout 放到宏任务队列，此时宏任务队列为 [‘A’, ‘B’]</li>
+<li>函数返回一个 Promise，因为这是一个同步操作，所以先打印出 ‘C’</li>
+<li>接着将 then 放到微任务队列，此时微任务队列为 [‘D’]</li>
+<li>接着执行同步任务 console.log(‘E’);，打印出 ‘E’</li>
+<li>因为微任务优先执行，所以先输出 ‘D’</li>
+<li>最后依次输出 ‘A’ 和 ‘B’</li>
+</ul>
+<p><strong>测试题02</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">  resolve(<span class="number">1</span>);</span><br><span class="line">  <span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">2</span>));</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">4</span>);</span><br><span class="line">&#125;).then(<span class="function"><span class="params">t</span> =&gt;</span> <span class="built_in">console</span>.log(t));</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>首先将 Promise.resolve() 的 then() 方法放到微任务队列，此时微任务队列为 [‘2’]</li>
+<li>然后打印出同步任务 4</li>
+<li>接着将 p 的 then() 方法放到微任务队列，此时微任务队列为 [‘2’, ‘1’]</li>
+<li>打印出同步任务 3</li>
+<li>最后依次打印微任务 2 和 1</li>
+</ul>
+<p><strong>测试题03</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// await 前面的代码</span></span><br><span class="line">  <span class="keyword">await</span> bar();</span><br><span class="line">  <span class="comment">// await 后面的代码</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// do something...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo();</span><br></pre></td></tr></table></figure>
+<p>async/await 仅仅是生成器的语法糖，只要把它转换成 Promise 的形式即可。</p>
+<p>其中 await 前面的代码 是同步的，调用此函数时会直接执行；而 await bar(); 这句可以被转换成 Promise.resolve(bar())；await 后面的代码 则会被放到 Promise 的 then() 方法里。因此上面的代码可以被转换成如下形式，这样是不是就很清晰了？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// await 前面的代码</span></span><br><span class="line">  <span class="built_in">Promise</span>.resolve(bar()).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// await 后面的代码</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// do something...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo();</span><br></pre></td></tr></table></figure>
+<h3 id="NodeJS的Event-Loop"><a href="#NodeJS的Event-Loop" class="headerlink" title="NodeJS的Event Loop"></a>NodeJS的Event Loop</h3><p>Node.js也是单线程的Event Loop，但是它的运行机制不同于浏览器环境。</p>
+<p><img src="/2019/04/28/Event Loop/node-event-loop.png" alt="node-event-loop"></p>
+<p><code>Node</code> 中的 <code>Event Loop</code> 和浏览器中的是完全不相同的东西。<code>Node.js</code>采用<code>V8</code>作为js的解析引擎，而<code>I/O</code>处理方面使用了自己设计的<code>libuv</code>，<code>libuv</code>是一个基于事件驱动的跨平台抽象层，libuv使用异步，事件驱动的编程方式，核心是提供i/o的事件循环和异步回调。libuv的API包含有时间，非阻塞的网络，异步文件操作，子进程等等。 Event Loop就是在libuv中实现的。</p>
+<p>Node.js的运行机制如下:</p>
+<ul>
+<li>V8引擎解析JavaScript脚本。</li>
+<li>解析后的代码，调用Node API。</li>
+<li>libuv库负责Node API的执行。它将不同的任务分配给不同的线程，形成一个Event Loop（事件循环），以异步的方式将任务的执行结果返回给V8引擎。</li>
+<li>V8引擎再将结果返回给用户。</li>
+</ul>
+<p>Node的Event loop一共分为6个阶段，每个细节具体如下：</p>
+<p><img src="/2019/04/28/Event Loop/node6.jpg" alt="node6"></p>
+<ul>
+<li><code>timers</code> 阶段：这个阶段执行<code>timer</code>（<code>setTimeout</code>、<code>setInterval</code>）中到期的回调</li>
+<li><code>pending callback</code>: 上一轮循环中少数的callback会放在这一阶段执行。</li>
+<li><code>idle, prepare</code> 阶段：仅node内部使用</li>
+<li><code>poll</code> 阶段：获取新的<code>I/O</code>事件, 适当的条件下node将阻塞在这里</li>
+<li><code>check</code> 阶段：执行 <code>setImmediate()</code> 的回调(<code>setImmediate()</code>是将事件插入到事件队列尾部，主线程和事件队列的函数执行完成之后立即执行<code>setImmediate</code>指定的回调函数)的<code>callback</code>。）</li>
+<li><code>close callbacks</code> 阶段：执行 <code>socket</code> 的 <code>close</code> 事件回调，例如<code>socket.on(&#39;close&#39;[,fn])</code>或者<code>http.server.on(&#39;close, fn)</code>。</li>
+</ul>
+<p><strong>timers</strong></p>
+<p>执行setTimeout和setInterval中到期的callback，并且是由 poll 阶段控制的，执行这两者回调需要设置一个毫秒数，理论上来说，应该是时间一到就立即执行callback回调，但是由于system的调度可能会延时，达不到预期时间，只能是尽快执行</p>
+<p><strong>pending callbacks</strong></p>
+<p>此阶段执行某些系统操作（例如TCP错误类型）的回调。 例如，如果TCP socket ECONNREFUSED在尝试connect时receives，则某些* nix系统希望等待报告错误。 这将在pending callbacks阶段执行。</p>
+<p><strong>poll</strong></p>
+<p>该poll阶段有两个主要功能：</p>
+<ul>
+<li>执行I/O回调。</li>
+<li>处理轮询队列中的事件。</li>
+</ul>
+<p>当事件循环进入poll阶段并且在timers中没有可以执行定时器时，将发生以下两种情况之一</p>
+<ul>
+<li>如果poll队列不为空，则事件循环将遍历其同步执行它们的callback队列，直到队列为空，或者达到system-dependent（系统相关限制）。</li>
+</ul>
+<p>如果poll队列为空，则会发生以下两种情况之一</p>
+<ul>
+<li>如果有setImmediate()回调需要执行，则会立即停止执行poll阶段并进入执行check阶段以执行回调。</li>
+<li>如果没有setImmediate()回到需要执行，poll阶段将等待callback被添加到队列中，然后立即执行。</li>
+</ul>
+<p>当然设定了 timer 的话且 poll 队列为空，则会判断是否有 timer 超时，如果有的话会回到 timer 阶段执行回调。</p>
+<p><strong>check</strong></p>
+<p>此阶段允许人员在poll阶段完成后立即执行回调。</p>
+<p>如果poll阶段闲置并且script已排队setImmediate()，则事件循环到达check阶段执行而不是继续等待。</p>
+<p>setImmediate()实际上是一个特殊的计时器，它在事件循环的一个单独阶段运行。它使用libuv API来调度在poll阶段完成后执行的回调。</p>
+<p>通常，当代码被执行时，事件循环最终将达到poll阶段，它将等待传入连接，请求等。<br>但是，如果已经调度了回调setImmediate()，并且轮询阶段变为空闲，则它将结束并且到达check阶段，而不是等待poll事件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'start'</span>)</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'timer1'</span>)</span><br><span class="line">  <span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'promise1'</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;, <span class="number">0</span>)</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'timer2'</span>)</span><br><span class="line">  <span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'promise2'</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;, <span class="number">0</span>)</span><br><span class="line"><span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'promise3'</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'end'</span>)</span><br></pre></td></tr></table></figure>
+<p>如果node版本为v11.x， 其结果与浏览器一致。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">start</span><br><span class="line">end</span><br><span class="line">promise3</span><br><span class="line">timer1</span><br><span class="line">promise1</span><br><span class="line">timer2</span><br><span class="line">promise2</span><br></pre></td></tr></table></figure></p>
+<p>如果v10版本上述结果存在两种情况：</p>
+<ul>
+<li><p>如果time2定时器已经在执行队列中了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">start</span><br><span class="line">end</span><br><span class="line">promise3</span><br><span class="line">timer1</span><br><span class="line">timer2</span><br><span class="line">promise1</span><br><span class="line">promise2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果time2定时器没有在执行对列中，执行结果为</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">start</span><br><span class="line">end</span><br><span class="line">promise3</span><br><span class="line">timer1</span><br><span class="line">promise1</span><br><span class="line">timer2</span><br><span class="line">promise2</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>具体情况可以参考poll阶段的两种情况。</p>
+<p>从下图可能更好理解：<br><img src="/2019/04/28/Event Loop/poll.jpg" alt="poll"></p>
+<p><strong>setImmediate() 的setTimeout()的区别</strong></p>
+<p>setImmediate和setTimeout()是相似的，但根据它们被调用的时间以不同的方式表现。</p>
+<ul>
+<li>setImmediate()设计用于在当前poll阶段完成后check阶段执行脚本 。</li>
+<li>setTimeout() 安排在经过最小（ms）后运行的脚本，在timers阶段执行。</li>
+</ul>
+<p>举个例子:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'timeout'</span>);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">setImmediate(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'immediate'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>执行定时器的顺序将根据调用它们的上下文而有所不同。 如果从主模块中调用两者，那么时间将受到进程性能的限制。</p>
+<p>其结果也不一致</p>
+<p>如果在I / O周期内移动两个调用，则始终首先执行立即回调：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"></span><br><span class="line">fs.readFile(__filename, () =&gt; &#123;</span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'timeout'</span>);</span><br><span class="line">  &#125;, <span class="number">0</span>);</span><br><span class="line">  setImmediate(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'immediate'</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>其结果可以确定一定是immediate =&gt; timeout。<br>主要原因是在I/O阶段读取文件后，事件循环会先进入poll阶段，发现有setImmediate需要执行，会立即进入check阶段执行setImmediate的回调。<br>然后再进入timers阶段，执行setTimeout，打印timeout。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">  ┌───────────────────────────┐</span><br><span class="line">┌─&gt;│           timers          │</span><br><span class="line">│  └─────────────┬─────────────┘</span><br><span class="line">│  ┌─────────────┴─────────────┐</span><br><span class="line">│  │     pending callbacks     │</span><br><span class="line">│  └─────────────┬─────────────┘</span><br><span class="line">│  ┌─────────────┴─────────────┐</span><br><span class="line">│  │       idle, prepare       │</span><br><span class="line">│  └─────────────┬─────────────┘      ┌───────────────┐</span><br><span class="line">│  ┌─────────────┴─────────────┐      │   incoming:   │</span><br><span class="line">│  │           poll            │&lt;─────┤  connections, │</span><br><span class="line">│  └─────────────┬─────────────┘      │   data, etc.  │</span><br><span class="line">│  ┌─────────────┴─────────────┐      └───────────────┘</span><br><span class="line">│  │           check           │</span><br><span class="line">│  └─────────────┬─────────────┘</span><br><span class="line">│  ┌─────────────┴─────────────┐</span><br><span class="line">└──┤      close callbacks      │</span><br><span class="line">   └───────────────────────────┘</span><br></pre></td></tr></table></figure>
+<p><strong>Process.nextTick()</strong></p>
+<p>process.nextTick()虽然它是异步API的一部分，但未在图中显示。这是因为process.nextTick()从技术上讲，它不是事件循环的一部分。</p>
+<ul>
+<li>process.nextTick()方法将 callback 添加到next tick队列。 一旦当前事件轮询队列的任务全部完成，在next tick队列中的所有callbacks会被依次调用。</li>
+</ul>
+<p>换种理解方式：</p>
+<ul>
+<li>当每个阶段完成后，如果存在 nextTick 队列，就会清空队列中的所有回调函数，并且优先于其他 microtask 执行。</li>
+</ul>
+<p><strong>镇楼题答案</strong></p>
+<ul>
+<li>首先打印出 script start</li>
+<li>接着将 settimeout 添加到宏任务队列，此时宏任务队列为 [‘settimeout’]</li>
+<li>然后执行函数 async1，先打印出 async1 start，又因为 Promise.resolve(async2()) 是同步任务，所以打印出 async2，接着将 async1 end 添加到微任务队列，，此时微任务队列为 [‘async1 end’]</li>
+<li>接着打印出 promise1，将 promise2 添加到微任务队列，，此时微任务队列为 [‘async1 end’, promise2]</li>
+<li>打印出 script end</li>
+<li>因为微任务优先级高于宏任务，所以先依次打印出 async1 end 和 promise2</li>
+<li>最后打印出宏任务 settimeout</li>
+</ul>
+<p>参考：</p>
+<p><a href="https://juejin.im/post/5a6547d0f265da3e283a1df7#heading-17" target="_blank" rel="noopener">从浏览器多进程到JS单线程，JS运行机制最全面的一次梳理</a><br><a href="https://juejin.im/post/5c3d8956e51d4511dc72c200#heading-26" target="_blank" rel="noopener">一次弄懂Event Loop</a><br><a href="https://juejin.im/post/5c337ae06fb9a049bc4cd218#heading-14" target="_blank" rel="noopener">浏览器与Node的事件循环(Event Loop)有何区别?</a><br><a href="https://juejin.im/post/5b73d7a6518825610072b42b#heading-6" target="_blank" rel="noopener">微任务、宏任务与Event-Loop</a><br><a href="https://juejin.im/post/5cbc0a9cf265da03b11f3505?utm_source=gold_browser_extension#heading-13" target="_blank" rel="noopener">最后一次搞懂 Event Loop</a><br><a href="https://juejin.im/post/5a6155126fb9a01cb64edb45#heading-10" target="_blank" rel="noopener">Event Loop的规范和实现</a><br><a href="https://juejin.im/post/5c9a43175188252d876e5903" target="_blank" rel="noopener">Eventloop不可怕，可怕的是遇上Promise</a>  </p>
+</the>
+      
+    </div>
+
+    
+
+    
+    
+    
+    
+    
+
+    
+      
+    
+    
+
+    
+      <div>
+        
+
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>jiuy</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="https://jiuylq.github.io/2019/04/28/Event Loop/" title="Event Loop">https://jiuylq.github.io/2019/04/28/Event Loop/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Javascript/" rel="tag"># Javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/13/setTimeout/" rel="next" title="setTimeout你应该知道的秘密">
+                <i class="fa fa-chevron-left"></i> setTimeout你应该知道的秘密
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/16/newOperator/" rel="prev" title="newOperator">
+                newOperator <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="//avatars3.githubusercontent.com/u/22409333?s=460&v=4" alt="jiuy">
+            
+              <p class="site-author-name" itemprop="name">jiuy</p>
+              <div class="site-description motion-element" itemprop="description">jiuylq的博客</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/jiuylq" title="GitHub &rarr; https://github.com/jiuylq" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="mailto:qiulve@gmail.com" title="E-Mail &rarr; mailto:qiulve@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/yourname" title="Weibo &rarr; https://weibo.com/yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+             </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com" title="http://example.com" rel="noopener" target="_blank">Title</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Event-Loop"><span class="nav-number">1.</span> <span class="nav-text">Event Loop</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#镇楼题"><span class="nav-number">1.1.</span> <span class="nav-text">镇楼题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.2.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程与进程"><span class="nav-number">1.3.</span> <span class="nav-text">线程与进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器是多进程的"><span class="nav-number">1.4.</span> <span class="nav-text">浏览器是多进程的</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#浏览器都包含哪些进程？"><span class="nav-number">1.4.1.</span> <span class="nav-text">浏览器都包含哪些进程？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#浏览器多进程的优势"><span class="nav-number">1.4.2.</span> <span class="nav-text">浏览器多进程的优势</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#浏览器内核（渲染进程）"><span class="nav-number">1.4.3.</span> <span class="nav-text">浏览器内核（渲染进程）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么-JavaScript-是单线程的？"><span class="nav-number">1.4.4.</span> <span class="nav-text">为什么 JavaScript 是单线程的？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Browser进程和浏览器内核（Renderer进程）的通信过程"><span class="nav-number">1.4.5.</span> <span class="nav-text">Browser进程和浏览器内核（Renderer进程）的通信过程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#梳理浏览器内核中线程之间的关系"><span class="nav-number">1.5.</span> <span class="nav-text">梳理浏览器内核中线程之间的关系</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GUI渲染线程与JS引擎线程互斥"><span class="nav-number">1.5.1.</span> <span class="nav-text">GUI渲染线程与JS引擎线程互斥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JS阻塞页面加载"><span class="nav-number">1.5.2.</span> <span class="nav-text">JS阻塞页面加载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WebWorker，JS的多线程？"><span class="nav-number">1.5.3.</span> <span class="nav-text">WebWorker，JS的多线程？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WebWorker与SharedWorker"><span class="nav-number">1.5.4.</span> <span class="nav-text">WebWorker与SharedWorker</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简单梳理下浏览器渲染流程"><span class="nav-number">1.6.</span> <span class="nav-text">简单梳理下浏览器渲染流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#load事件与DOMContentLoaded事件的先后"><span class="nav-number">1.6.1.</span> <span class="nav-text">load事件与DOMContentLoaded事件的先后</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#css加载是否会阻塞dom树渲染？"><span class="nav-number">1.6.2.</span> <span class="nav-text">css加载是否会阻塞dom树渲染？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#普通图层和复合图层"><span class="nav-number">1.6.3.</span> <span class="nav-text">普通图层和复合图层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何变成复合图层（硬件加速）"><span class="nav-number">1.6.4.</span> <span class="nav-text">如何变成复合图层（硬件加速）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#堆，栈、队列"><span class="nav-number">1.7.</span> <span class="nav-text">堆，栈、队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Event-Loop-1"><span class="nav-number">1.8.</span> <span class="nav-text">Event Loop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器中的Event-Loop"><span class="nav-number">1.9.</span> <span class="nav-text">浏览器中的Event Loop</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#执行栈"><span class="nav-number">1.9.1.</span> <span class="nav-text">执行栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#任务队列"><span class="nav-number">1.9.2.</span> <span class="nav-text">任务队列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事件循环"><span class="nav-number">1.9.3.</span> <span class="nav-text">事件循环</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NodeJS的Event-Loop"><span class="nav-number">1.10.</span> <span class="nav-text">NodeJS的Event Loop</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">Copyright </a>&copy; 2017 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jiuylq</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom">The content of this site comes from daily summary and online.</div>
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'P26CHPjj9VreMJAv9UO1YveC-gzGzoHsz',
+    appKey: 'wFMdR7glovMJJENYCjtQS1QD',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true
+  });
+</script>
+
+
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<style>
+  .copy-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 20px;
+    color: #333;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+    
+    user-select: none;
+    outline: 0;
+  }
+
+  .highlight-wrap .copy-btn {
+    transition: opacity .3s ease-in-out;
+    opacity: 0;
+    padding: 2px 6px;
+    position: absolute;
+    
+      right: 4px;
+      top: 8px;
+    
+  }
+
+  .highlight-wrap:hover .copy-btn,
+  .highlight-wrap .copy-btn:focus {
+    opacity: 1;
+  }
+
+  .highlight-wrap {
+    position: relative;
+  }
+</style>
+<script>
+  $('.highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+</body>
+</html>
