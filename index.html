@@ -294,7 +294,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">20</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">22</span></a>
 
   </li>
         
@@ -378,6 +378,504 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jiuylq.github.io/2019/07/02/js-hack/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jiuy">
+      <meta itemprop="description" content="jiuylq的博客">
+      <meta itemprop="image" content="//avatars3.githubusercontent.com/u/22409333?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiuylq">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/07/02/js-hack/" class="post-title-link" itemprop="url">js常用兼容性收集</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-02 01:32:48 / 修改时间：01:35:04" itemprop="dateCreated datePublished" datetime="2019-07-02T01:32:48+08:00">2019-07-02</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/07/02/js-hack/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/02/js-hack/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+            <span id="/2019/07/02/js-hack/" class="leancloud_visitors" data-flag-title="js常用兼容性收集">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">7.6k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">7 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <a id="more"></a>
+<h2 id="js常用兼容性收集"><a href="#js常用兼容性收集" class="headerlink" title="js常用兼容性收集"></a>js常用兼容性收集</h2><ol>
+<li>事件监听和移除</li>
+</ol>
+<p>DOM事件流:  </p>
+<ul>
+<li>捕获阶段(<code>capture phase</code>): 从window对象传导到目标对象。（window–document–….–目标对象）  </li>
+<li>目标阶段(<code>target phase</code>): 目标对象本身的事件处理程序调用。  </li>
+<li>冒泡阶段(<code>bubble phase</code>): 从目标对象传导回window对象。（目标对象–父元素–….–document–window）  </li>
+</ul>
+<p>这3个流程由<code>W3C</code>规定，但是在<code>IE</code>的低版本里并没有第一个捕获的过程；<br>并不是所有事件都有这3个过程，有些事件是没有冒泡的过程，例如页面<code>load</code>事件没有冒泡过程。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 事件监听</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addEvent</span>(<span class="params">el, type, handler, useCapture</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(el.addEventListener) &#123; <span class="comment">// 检测是否为DOM2级方法</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">el, type, handler, useCapture</span>) </span>&#123;</span><br><span class="line">      el.addEventListener(type, handler, useCapture ? <span class="literal">true</span> : <span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span>(el.attachEvent) &#123; <span class="comment">// 检测是否为IE级方法</span></span><br><span class="line">    <span class="comment">// IE中没有事件捕获的过程</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">el, type, handler</span>) </span>&#123;</span><br><span class="line">      el.attachEvent(<span class="string">"on"</span> + type, handler);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123; <span class="comment">// DOM0级的方法</span></span><br><span class="line">    el[<span class="string">"on"</span> + type] = handler;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 移除</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">removeEvent</span>(<span class="params">el, type, handler, useCapture</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(el.removeEventListener) &#123; <span class="comment">// 检测是否为DOM2级方法</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">el, type, handler, useCapture</span>) </span>&#123;</span><br><span class="line">      el.removeEventListener(type, handler, useCapture ? <span class="literal">true</span> : <span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span>(el.detachEvent) &#123; <span class="comment">// 检测是否为IE级方法</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">el, type, handler</span>) </span>&#123;</span><br><span class="line">      el.detachEvent(<span class="string">"on"</span> + type, handler);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123; <span class="comment">// DOM0级的方法</span></span><br><span class="line">    el[<span class="string">"on"</span> + type] = <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>获取事件及事件对象目标</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取事件对象的兼容性写法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getEvent</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> event ? event : <span class="built_in">window</span>.event;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取事件对象目标的兼容性写法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getTarget</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> event.target || event.srcElemtnt</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>手动触发事件</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">tigger</span>(<span class="params">el, type</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(el.dispatchEvent) &#123; <span class="comment">// 非IE</span></span><br><span class="line">    <span class="keyword">var</span> ev = <span class="built_in">document</span>.createEvent(<span class="string">'Event'</span>)</span><br><span class="line">    ev.initEvent(type, <span class="literal">true</span>, <span class="literal">true</span>)</span><br><span class="line">    e.target.dispatchEvent(ev)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123; <span class="comment">// IE</span></span><br><span class="line">    el.fireEvent(<span class="string">'on'</span>+type);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>阻止默认事件</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">preventDefault</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (event.preventDefault) &#123;</span><br><span class="line">    event.preventDefault();</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;  <span class="comment">// IE9-</span></span><br><span class="line">    event.returnValue = <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">function cancelHandler(event)&#123;</span></span><br><span class="line"><span class="comment">  if(event.preventDefault) &#123;event.preventDefault();&#125;  //标准</span></span><br><span class="line"><span class="comment">  if(event.returnValue) &#123; event.returnValue = false;&#125;  // IE</span></span><br><span class="line"><span class="comment">  return false; //用于处理使用对象属性注册的处理程序</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>阻止事件冒泡</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">stopPropagetion</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(event.stopPropagetion) &#123;</span><br><span class="line">    event.stopPropagetion();</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123; <span class="comment">// IE</span></span><br><span class="line">    event.cancelBubble = <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>mouseover和mouseout 事件才包含的获取相关元素的方法</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mouseover和mouseout 事件才包含的获取相关元素的方法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getRelatedTarget</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (event.relatedTarget)&#123;</span><br><span class="line">        <span class="keyword">return</span> event.relatedTarget;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (event.toElement)&#123;</span><br><span class="line">        <span class="keyword">return</span> event.toElement;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (event.fromElement)&#123;</span><br><span class="line">        <span class="keyword">return</span> event.fromElement;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">document.onmouseover=function(e)&#123;</span></span><br><span class="line"><span class="comment">  var e=e||window.event;</span></span><br><span class="line"><span class="comment">  var Target=e.target||e.srcElement;//获取target的兼容写法，后面的为IE</span></span><br><span class="line"><span class="comment">  var from=e.relatedTarget||e.formElement;//鼠标来的地方，同样后面的为IE...</span></span><br><span class="line"><span class="comment">  var to=e.relatedTarget||e.toElement;//鼠标去的地方</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>鼠标滚轮判断</li>
+</ol>
+<p>对于<code>mousedown</code> 和<code>mouseup</code> 事件来说，则在其<code>event</code> 对象存在一个<code>button</code> 属性，表示按下或释放的按钮。<br><code>DOM</code>的<code>button</code> 属性可能有如下3 个值：<br>　<code>0</code> 表示主鼠标按钮，<br>　<code>1</code> 表示中间的鼠标按钮（鼠标滚轮按钮），<br>　<code>2</code> 表示次鼠标按钮。  </p>
+<p>在常规的设置中，主鼠标按钮就是鼠标左键，而次鼠标按钮就是鼠标右键。<br><code>IE8</code> 及之前版本也提供了<code>button</code>属性，但这个属性的值与<code>DOM</code> 的<code>button</code> 属性有很大差异。<br>　<code>0</code>：表示没有按下按钮。<br>　<code>1</code>：表示按下了主鼠标按钮。<br>　<code>2</code>：表示按下了次鼠标按钮。<br>　<code>3</code>：表示同时按下了主、次鼠标按钮。<br>　<code>4</code>：表示按下了中间的鼠标按钮。<br>　<code>5</code>：表示同时按下了主鼠标按钮和中间的鼠标按钮。<br>　<code>6</code>：表示同时按下了次鼠标按钮和中间的鼠标按钮。<br>　<code>7</code>：表示同时按下了三个鼠标按钮。  </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getButton</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">document</span>.implementation.hasFeature(<span class="string">"MouseEvents"</span>, <span class="string">"2.0"</span>))&#123; <span class="comment">// 检测浏览器是否支持“DOM2级”鼠标事件：</span></span><br><span class="line">    <span class="keyword">return</span> event.button;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">switch</span>(event.button)&#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">        <span class="keyword">case</span> <span class="number">7</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">case</span> <span class="number">6</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="8">
+<li>监听鼠标滚轮滚动事件</li>
+</ol>
+<blockquote>
+<p>滚轮事件<br><code>onmousewheel</code>  非火狐, oEvent.wheelDelta, 120 向上 &gt;0,-120 向下 &lt;0<br><code>DOMMouseScroll</code> 火狐, oEvent.detail, -3 向上 &lt;0, 3 向下 &gt;0<br><code>注</code>：你就记住火狐里面向下滚是正的<br>在<code>Opera9.5</code>及之前版本中，<code>wheelDelta</code>的正负号是颠倒的；可以使用浏览器检测技术来确定实际的值，</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addWheel</span>(<span class="params">el, handler</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(navigator.userAgent.toLowerCase().indexOf(<span class="string">'firefox'</span>)!=<span class="number">-1</span>) &#123;</span><br><span class="line">      el.addEventListener(<span class="string">'DOMMouseScroll'</span>, handler, <span class="literal">false</span>);            <span class="comment">//火狐</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      el.onmousewheel=handler;                                        <span class="comment">//非火狐</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">wheelHandle</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (event.wheelDelta)&#123;</span><br><span class="line">    <span class="keyword">var</span> client = getBrowserInfo()</span><br><span class="line">    <span class="keyword">return</span> (client.opera &amp;&amp; client.opera &lt; <span class="number">9.5</span> ? -event.wheelDelta : event.wheelDelta);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> -event.detail * <span class="number">40</span>;<span class="comment">//firefox中的值为+3表示向上滚，-3表示向下滚</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getBrowserInfo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> Sys = &#123;&#125;;</span><br><span class="line">  <span class="keyword">var</span> ua = navigator.userAgent.toLowerCase();</span><br><span class="line">  <span class="keyword">var</span> re =<span class="regexp">/(msie|firefox|chrome|opera|version).*?([\d.]+)/</span>;</span><br><span class="line">  <span class="keyword">var</span> m = ua.match(re);</span><br><span class="line">  Sys.browser = m[<span class="number">1</span>].replace(<span class="regexp">/version/</span>, <span class="string">"'safari"</span>);</span><br><span class="line">  Sys.ver = m[<span class="number">2</span>];</span><br><span class="line">  <span class="keyword">if</span>(browser == <span class="string">'opera'</span>) &#123;</span><br><span class="line">    Sys.opera = <span class="built_in">parseFloat</span>(m[<span class="number">2</span>].split(<span class="string">'.'</span>).slice(<span class="number">0</span>,<span class="number">2</span>).join(<span class="string">'.'</span>))</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> Sys;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>9.dom加载事件</p>
+<p><code>DOMContentLoaded</code>: 兼容非IE<br><code>onreadystatechange</code>: 只是用来模拟 兼容IE<br><code>document.readyState==&#39;complete&#39;</code> 当加载成功的时候, 兼容性 全兼容  </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ready</span>(<span class="params">fn</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">document</span>.addEventListener)&#123;</span><br><span class="line">        <span class="built_in">document</span>.addEventListener(<span class="string">'DOMContentLoaded'</span>,fn,<span class="literal">false</span>)</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="built_in">document</span>.onreadystatechange=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">document</span>.readyState==<span class="string">'complete'</span>)&#123;</span><br><span class="line">                fn();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="10">
+<li>滚动距离</li>
+</ol>
+<blockquote>
+<p>距离屏幕上方的滚动距离<br><code>document.body.scrollTop</code> 兼容性：chrome<br><code>document.documentElement.scrollTop</code> 兼容 非chrome  </p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.documentElement.scrollTop || <span class="built_in">document</span>.body.scrollTop</span><br></pre></td></tr></table></figure>
+<ol start="11">
+<li>ajax</li>
+</ol>
+<p><code>XMLHttpRequest</code> 对象 主流浏览器<br><code>ActiveXObject</code> 对象 兼容IE(ie5,6)  </p>
+<p>跨域携带<code>cookie</code>:<br><code>withCredentials</code> 兼容非IE<br><code>XDomainRequest</code> 兼容IE8|IE9  </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="built_in">window</span>.XMLHttpRequest)&#123;</span><br><span class="line">  <span class="keyword">var</span> xhr=<span class="keyword">new</span> XMLHttpRequest;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> xhr=<span class="keyword">new</span> ActiveXObject(<span class="string">'Microsoft.XMLHTTP'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 跨域携带cookie</span></span><br><span class="line"><span class="keyword">if</span>(<span class="built_in">window</span>.XMLHttpRequest)&#123;</span><br><span class="line">  <span class="keyword">var</span> xhr=<span class="keyword">new</span> XMLHttpRequest;</span><br><span class="line">  xhr.withCredentials = <span class="literal">true</span></span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> xhr=<span class="keyword">new</span> XDomainRequest();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="12">
+<li>实时统计字数</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">onkeydown</span><br><span class="line">    键盘按下的时候，按下的东西，还没进文本框</span><br><span class="line">onkeyup</span><br><span class="line">    如果一直按下不统计</span><br><span class="line">onkeyup=onkeydown</span><br><span class="line">    一直按下的时候有一点卡顿</span><br><span class="line">oninput</span><br><span class="line">    IE9 删除有问题</span><br><span class="line">    iE9-  没有此方法</span><br><span class="line">onpropertychange</span><br><span class="line">    IE系列</span><br><span class="line">    IE9  删除有问题</span><br><span class="line">oT1.oninput=oT1.onpropertychange</span><br><span class="line">    IE9删除有问题</span><br><span class="line">定时器</span><br><span class="line">    没问题，性能不好</span><br><span class="line"></span><br><span class="line">方案：IE9用定时器，其他用oT1.oninput=oT1.onpropertychange</span><br></pre></td></tr></table></figure>
+<ol start="13">
+<li>eval和JSON.parse</li>
+</ol>
+<p><code>parse</code> 标准 IE8+ 安全<br><code>eval</code> 随意 ie6 不安全  </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">parseJson</span>(<span class="params">str</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">try</span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">JSON</span>.parse(str);</span><br><span class="line">  &#125;<span class="keyword">catch</span>(e)&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">eval</span>(<span class="string">'('</span>+str+<span class="string">')'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="14">
+<li>获取非行间样式</li>
+</ol>
+<p><code>getComputedStyle(obj,false).width</code> chrome FF ie9+<br>注：false:没用，只是为了兼容老版本的火狐;<br><code>obj.currentStyle.width</code> ie7 8<br>兼容写法： (getComputedStyle(obj,false) || obj.currentStyle)[width]</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getStyle</span>(<span class="params">obj,sName</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(obj.currentStyle)&#123;</span><br><span class="line">      <span class="keyword">return</span> obj.currentStyle[sName];</span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      <span class="keyword">return</span> getComputedStyle(obj,<span class="literal">false</span>)[sName];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="15">
+<li>事件的状态(事件发生时元素的坐标)</li>
+</ol>
+<p>ie中:<code>event.x</code> <code>webkit</code>内核也实现了<br>Firefox中:<code>event.pagex</code></p>
+<ol start="16">
+<li>跨浏览器的方式取得字符编码</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getCharCode</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> event.charCode == <span class="string">"number"</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> event.charCode;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> event.keyCode;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="17">
+<li>访问剪贴板中的数据</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getClipboardText</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> clipboardData = (event.clipboardData || <span class="built_in">window</span>.clipboardData);</span><br><span class="line">  <span class="keyword">return</span> clipboardData.getData(<span class="string">"text"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="18">
+<li>设置剪贴板中的数据</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setClipboardText</span>(<span class="params">event, value</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (event.clipboardData)&#123;</span><br><span class="line">    <span class="keyword">return</span> event.clipboardData.setData(<span class="string">"text/plain"</span>, value);</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">window</span>.clipboardData)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">window</span>.clipboardData.setData(<span class="string">"text"</span>, value);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+    
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jiuylq.github.io/2019/05/17/vue-interview/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jiuy">
+      <meta itemprop="description" content="jiuylq的博客">
+      <meta itemprop="image" content="//avatars3.githubusercontent.com/u/22409333?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiuylq">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/17/vue-interview/" class="post-title-link" itemprop="url">vue-interview</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-17 20:58:19" itemprop="dateCreated datePublished" datetime="2019-05-17T20:58:19+08:00">2019-05-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-19 14:25:31" itemprop="dateModified" datetime="2019-05-19T14:25:31+08:00">2019-05-19</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/05/17/vue-interview/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/05/17/vue-interview/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+            <span id="/2019/05/17/vue-interview/" class="leancloud_visitors" data-flag-title="vue-interview">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">73</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">1 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>本文收集了一些关于vue相关知识点的面试题，仅供参考</p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/05/17/vue-interview/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+    
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -1999,473 +2497,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://jiuylq.github.io/2019/03/10/delayering/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="jiuy">
-      <meta itemprop="description" content="jiuylq的博客">
-      <meta itemprop="image" content="//avatars3.githubusercontent.com/u/22409333?s=460&v=4">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="jiuylq">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/03/10/delayering/" class="post-title-link" itemprop="url">数组扁平化</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-03-10 00:00:00" itemprop="dateCreated datePublished" datetime="2019-03-10T00:00:00+08:00">2019-03-10</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-04-07 13:23:25" itemprop="dateModified" datetime="2019-04-07T13:23:25+08:00">2019-04-07</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/js/" itemprop="url" rel="index"><span itemprop="name">js</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-            
-                <span class="post-meta-item-text">评论数：</span>
-                <a href="/2019/03/10/delayering/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/10/delayering/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-            <span id="/2019/03/10/delayering/" class="leancloud_visitors" data-flag-title="数组扁平化">
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              
-                <span class="post-meta-item-text">阅读次数：</span>
-              
-                <span class="leancloud-visitors-count"></span>
-            </span>
-          
-
-          
-
-          
-            <div class="post-symbolscount">
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">本文字数：</span>
-                
-                <span title="本文字数">5.4k</span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">5 分钟</span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>数组扁平化  将一个多维数组转换为一维数组；扁平化不改变原数据类型(即数组里的每个数据的类型)<br></p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/03/10/delayering/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-    
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://jiuylq.github.io/2019/03/07/cookie/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="jiuy">
-      <meta itemprop="description" content="jiuylq的博客">
-      <meta itemprop="image" content="//avatars3.githubusercontent.com/u/22409333?s=460&v=4">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="jiuylq">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/03/07/cookie/" class="post-title-link" itemprop="url">cookie 知识小记</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-03-07 00:00:00" itemprop="dateCreated datePublished" datetime="2019-03-07T00:00:00+08:00">2019-03-07</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-04-28 00:07:29" itemprop="dateModified" datetime="2019-04-28T00:07:29+08:00">2019-04-28</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Javascript/" itemprop="url" rel="index"><span itemprop="name">Javascript</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-            
-                <span class="post-meta-item-text">评论数：</span>
-                <a href="/2019/03/07/cookie/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/07/cookie/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-            <span id="/2019/03/07/cookie/" class="leancloud_visitors" data-flag-title="cookie 知识小记">
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              
-                <span class="post-meta-item-text">阅读次数：</span>
-              
-                <span class="leancloud-visitors-count"></span>
-            </span>
-          
-
-          
-
-          
-            <div class="post-symbolscount">
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">本文字数：</span>
-                
-                <span title="本文字数">7.2k</span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">7 分钟</span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>cookie 知识小记<br>日常工作中常常会用到cookie，本文总结了一下cookie的常用只是点，用作笔记。<br></p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/03/07/cookie/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-    
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2509,7 +2545,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-count">22</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
