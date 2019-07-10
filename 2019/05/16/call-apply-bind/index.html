@@ -98,18 +98,18 @@
 
 
 
-  <meta name="description" content="call apply bind">
+  <meta name="description" content="call apply bind 的模拟实现，自己记录一下用作笔记">
 <meta name="keywords" content="jiuylq">
 <meta property="og:type" content="article">
-<meta property="og:title" content="call-apply-bind">
+<meta property="og:title" content="call apply bind 的模拟实现">
 <meta property="og:url" content="https://jiuylq.github.io/2019/05/16/call-apply-bind/index.html">
 <meta property="og:site_name" content="jiuylq">
-<meta property="og:description" content="call apply bind">
+<meta property="og:description" content="call apply bind 的模拟实现，自己记录一下用作笔记">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-16T07:21:24.462Z">
+<meta property="og:updated_time" content="2019-07-10T13:12:33.233Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="call-apply-bind">
-<meta name="twitter:description" content="call apply bind">
+<meta name="twitter:title" content="call apply bind 的模拟实现">
+<meta name="twitter:description" content="call apply bind 的模拟实现，自己记录一下用作笔记">
 
 
 
@@ -128,7 +128,7 @@
   };
 </script>
 
-  <title>call-apply-bind | jiuylq</title>
+  <title>call apply bind 的模拟实现 | jiuylq</title>
   
 
 
@@ -294,7 +294,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">22</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">23</span></a>
 
   </li>
         
@@ -411,7 +411,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">call-apply-bind
+          <h1 class="post-title" itemprop="name headline">call apply bind 的模拟实现
 
               
             
@@ -437,12 +437,24 @@
                 
               
 
-              <time title="创建时间：2019-05-16 15:16:18 / 修改时间：15:21:24" itemprop="dateCreated datePublished" datetime="2019-05-16T15:16:18+08:00">2019-05-16</time>
+              <time title="创建时间：2019-05-16 15:16:18" itemprop="dateCreated datePublished" datetime="2019-05-16T15:16:18+08:00">2019-05-16</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-10 21:12:33" itemprop="dateModified" datetime="2019-07-10T21:12:33+08:00">2019-07-10</time>
               
             
           </span>
@@ -469,7 +481,7 @@
 
           
           
-            <span id="/2019/05/16/call-apply-bind/" class="leancloud_visitors" data-flag-title="call-apply-bind">
+            <span id="/2019/05/16/call-apply-bind/" class="leancloud_visitors" data-flag-title="call apply bind 的模拟实现">
               <span class="post-meta-divider">|</span>
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
@@ -528,7 +540,7 @@
       
 
       
-        <p>call apply bind<br><a id="more"></a></p>
+        <p>call apply bind 的模拟实现，自己记录一下用作笔记<br><a id="more"></a></p>
 <h2 id="call-apply-bind"><a href="#call-apply-bind" class="headerlink" title="call apply bind"></a>call apply bind</h2><h3 id="call"><a href="#call" class="headerlink" title="call"></a>call</h3><h3 id="模拟实现call、apply、bind"><a href="#模拟实现call、apply、bind" class="headerlink" title="模拟实现call、apply、bind"></a>模拟实现call、apply、bind</h3><h4 id="call-1"><a href="#call-1" class="headerlink" title="call"></a>call</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.call = <span class="function"><span class="keyword">function</span> (<span class="params">context</span>) </span>&#123;</span><br><span class="line">    <span class="comment">/** 如果第一个参数传入的是 null 或者是 undefined, 那么指向this指向 window/global */</span></span><br><span class="line">    <span class="comment">/** 如果第一个参数传入的不是null或者是undefined, 那么必须是一个对象 */</span></span><br><span class="line">    <span class="keyword">if</span> (!context) &#123;</span><br><span class="line">        <span class="comment">//context为null或者是undefined</span></span><br><span class="line">        context = <span class="keyword">typeof</span> <span class="built_in">window</span> === <span class="string">'undefined'</span> ? global : <span class="built_in">window</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    context.fn = <span class="keyword">this</span>; <span class="comment">//this指向的是当前的函数(Function的实例)</span></span><br><span class="line">    <span class="keyword">let</span> rest = [...arguments].slice(<span class="number">1</span>);<span class="comment">//获取除了this指向对象以外的参数, 空数组slice后返回的仍然是空数组</span></span><br><span class="line">    <span class="keyword">let</span> result = context.fn(...rest); <span class="comment">//隐式绑定,当前函数的this指向了context.</span></span><br><span class="line">    <span class="keyword">delete</span> context.fn;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="apply"><a href="#apply" class="headerlink" title="apply"></a>apply</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.apply = <span class="function"><span class="keyword">function</span> (<span class="params">context, rest</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!context) &#123;</span><br><span class="line">        <span class="comment">//context为null或者是undefined时,设置默认值</span></span><br><span class="line">        context = <span class="keyword">typeof</span> <span class="built_in">window</span> === <span class="string">'undefined'</span> ? global : <span class="built_in">window</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    context.fn = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">let</span> result;</span><br><span class="line">    <span class="keyword">if</span>(rest === <span class="literal">undefined</span> || rest === <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">//undefined 或者 是 null 不是 Iterator 对象，不能被 ...</span></span><br><span class="line">        result = context.fn(rest);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">typeof</span> rest === <span class="string">'object'</span>) &#123;</span><br><span class="line">        result = context.fn(...rest);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">delete</span> context.fn;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="bind"><a href="#bind" class="headerlink" title="bind"></a>bind</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.bind = <span class="function"><span class="keyword">function</span>(<span class="params">context</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> <span class="keyword">this</span> !== <span class="string">"function"</span>)&#123;</span><br><span class="line">       <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">"not a function"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> self = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">let</span> args = [...arguments].slice(<span class="number">1</span>);</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">Fn</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">    Fn.prototype = <span class="keyword">this</span>.prototype;</span><br><span class="line">    <span class="keyword">let</span> bound = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> res = [...args, ...arguments]; <span class="comment">//bind传递的参数和函数调用时传递的参数拼接</span></span><br><span class="line">        context = <span class="keyword">this</span> <span class="keyword">instanceof</span> Fn ? <span class="keyword">this</span> : context || <span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">return</span> self.apply(context, res);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//原型链</span></span><br><span class="line">    bound.prototype = <span class="keyword">new</span> Fn();</span><br><span class="line">    <span class="keyword">return</span> bound;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -576,7 +588,7 @@
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
     
-    <a href="https://jiuylq.github.io/2019/05/16/call-apply-bind/" title="call-apply-bind">https://jiuylq.github.io/2019/05/16/call-apply-bind/</a>
+    <a href="https://jiuylq.github.io/2019/05/16/call-apply-bind/" title="call apply bind 的模拟实现">https://jiuylq.github.io/2019/05/16/call-apply-bind/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
@@ -596,8 +608,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/16/newOperator/" rel="next" title="newOperator">
-                <i class="fa fa-chevron-left"></i> newOperator
+              <a href="/2019/05/16/newOperator/" rel="next" title="new 操作符">
+                <i class="fa fa-chevron-left"></i> new 操作符
               </a>
             
           </div>
@@ -606,8 +618,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/05/16/closure/" rel="prev" title="closure">
-                closure <i class="fa fa-chevron-right"></i>
+              <a href="/2019/05/16/closure/" rel="prev" title="JavaScript闭包">
+                JavaScript闭包 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -683,7 +695,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

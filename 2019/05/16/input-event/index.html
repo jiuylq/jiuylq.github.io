@@ -98,18 +98,18 @@
 
 
 
-  <meta name="description" content="input输入框事件详解">
+  <meta name="description" content="工作中我们常常需要跟数据进行打交道，既然用到了数据那就常常需要用到表单/输入框了，今天我们就来探讨一下输入框的事件吧！">
 <meta name="keywords" content="jiuylq">
 <meta property="og:type" content="article">
 <meta property="og:title" content="input-event">
 <meta property="og:url" content="https://jiuylq.github.io/2019/05/16/input-event/index.html">
 <meta property="og:site_name" content="jiuylq">
-<meta property="og:description" content="input输入框事件详解">
+<meta property="og:description" content="工作中我们常常需要跟数据进行打交道，既然用到了数据那就常常需要用到表单/输入框了，今天我们就来探讨一下输入框的事件吧！">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-16T07:21:48.816Z">
+<meta property="og:updated_time" content="2019-07-10T13:04:03.879Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="input-event">
-<meta name="twitter:description" content="input输入框事件详解">
+<meta name="twitter:description" content="工作中我们常常需要跟数据进行打交道，既然用到了数据那就常常需要用到表单/输入框了，今天我们就来探讨一下输入框的事件吧！">
 
 
 
@@ -294,7 +294,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">22</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">23</span></a>
 
   </li>
         
@@ -437,12 +437,24 @@
                 
               
 
-              <time title="创建时间：2019-05-16 15:19:43 / 修改时间：15:21:48" itemprop="dateCreated datePublished" datetime="2019-05-16T15:19:43+08:00">2019-05-16</time>
+              <time title="创建时间：2019-05-16 15:19:43" itemprop="dateCreated datePublished" datetime="2019-05-16T15:19:43+08:00">2019-05-16</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-10 21:04:03" itemprop="dateModified" datetime="2019-07-10T21:04:03+08:00">2019-07-10</time>
               
             
           </span>
@@ -494,7 +506,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">2.8k</span>
+                <span title="本文字数">2.9k</span>
               
 
               
@@ -528,7 +540,7 @@
       
 
       
-        <p>input输入框事件详解<br><a id="more"></a></p>
+        <p>工作中我们常常需要跟数据进行打交道，既然用到了数据那就常常需要用到表单/输入框了，今天我们就来探讨一下输入框的事件吧！<br><a id="more"></a></p>
 <h2 id="input输入框功能"><a href="#input输入框功能" class="headerlink" title="input输入框功能"></a><font color="#00ffff">input输入框功能</font></h2><p>1、事件<br>　　1、keydown: 当用户按下任意键时触发，而且按住不放的话，会重复触发此事件。<br>　　2、keypress: 当用户按下字符键时触发，而且按住不放的话，会重复触发此事件。按下Esc键也会触发这个事件，Safari3.1之前的版本按下非字符键时也触发。<br>　　3、keyup: 当用户释放键时触发。<br>　　4、textInput：事件只会在用户按下能够输入实际字符的键时才会触发(textInput属性对火狐浏览器无兼容,目前只有safari、chrome支持)<br>　　5、onchange：事件在内容改变（两次内容有可能还是相等的）且失去焦点时触发。<br>　　6、onpropertychange 事件却是实时触发，即每增加或删除一个字符就会触发，通过 js 改变也会触发该事件，但是该事件 IE 专有。<br>　　7、oninput 事件是 IE 之外的大多数浏览器支持的事件，在 value 改变时触发，实时的，即每增加或删除一个字符就会触发，然而通过 js 改变 value 时，却不会触发。  </p>
 <blockquote>
 <p>注：<br> (1) onpropertychange 事件是任何属性改变都会触发的，而 oninput 却只在 value 改变时触发，oninput 要通过 addEventListener() 来注册，onpropertychange 注册方式跟一般事件一样。（此处都是指在js中动态绑定事件，以实现内容与行为分离）<br>（2）oninput 事件：a). 当脚本中改变 value 时，不会触发；b).从浏览器的自动下拉提示中选取时，不会触发。<br>（3）onpropertychange 事件：当 input 设置为 disable=tru e后，onpropertychange 不会触发。</p>
@@ -601,8 +613,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/16/closure/" rel="next" title="closure">
-                <i class="fa fa-chevron-left"></i> closure
+              <a href="/2019/05/16/closure/" rel="next" title="JavaScript闭包">
+                <i class="fa fa-chevron-left"></i> JavaScript闭包
               </a>
             
           </div>
@@ -611,8 +623,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/05/16/mysql-install/" rel="prev" title="mysql-install">
-                mysql-install <i class="fa fa-chevron-right"></i>
+              <a href="/2019/05/16/mysql-install/" rel="prev" title="MySQL-install">
+                MySQL-install <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -688,7 +700,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
